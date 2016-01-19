@@ -1,9 +1,11 @@
 package censoredPackage;
 
+import java.util.ArrayList;
+
 public class SensorType {
 	private int sensorTypeID;
 	private String name;
-	private DataType dataTypes;
+	private ArrayList<DataType> dataTypes = new ArrayList<>();
 	
 	public SensorType() {
 		
