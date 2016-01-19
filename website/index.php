@@ -1,3 +1,5 @@
 <?php
-require_once('View/index.phtml')
+require_once('init/core.php');
+Database::getInstance();
+require_once('View/index.phtml');
 ?>
