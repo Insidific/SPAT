@@ -1,4 +1,4 @@
-package Models;
+package com.sensored.Models;
 
 import java.util.ArrayList;
 
