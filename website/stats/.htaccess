@@ -1,0 +1,7 @@
+AuthName "spat.stb391.edu.csesalford.com statistics"
+AuthType Basic
+AuthUserFile /home/stb391/domains/spat.stb391.edu.csesalford.com/.stats-htpasswd
+require valid-user
+<Files .stats-htpasswd>
+deny from all
+</Files>
