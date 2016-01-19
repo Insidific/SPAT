@@ -1,4 +1,4 @@
-package censoredPackage;
+package Models;
 
 public class DataType {
 	private int dataTypeID;

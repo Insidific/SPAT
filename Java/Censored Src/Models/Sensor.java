@@ -1,4 +1,4 @@
-package censoredPackage;
+package Models;
 
 public class Sensor {
 	private int sensorID, typeID;

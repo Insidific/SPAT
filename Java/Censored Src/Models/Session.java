@@ -1,4 +1,4 @@
-package censoredPackage;
+package Models;
 
 import java.time.OffsetDateTime;
 
