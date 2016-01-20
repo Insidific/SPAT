@@ -1,0 +1,15 @@
+package Controller;
+
+import java.io.File;
+
+import org.hibernate.boot.registry.StandardServiceRegistry;
+
+public class DatabaseManager 
+{
+	private Object sessionFactory;
+
+	public DatabaseManager()
+	{
+		
+	}
+}

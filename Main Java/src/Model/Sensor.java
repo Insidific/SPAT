@@ -9,6 +9,19 @@ public class Sensor {
 		
 	}
 	
+	/**
+	 * If there is an instance of Sensor in the database that has the given id number, retrieves and returns it.
+	 * Otherwise, creates a new instance of Sensor with that id, saves it to the database, and returns it.
+	 * 
+	 * @param id the id number to retrieve or create.
+	 * @return the instance of Sensor that has the ID given by 'id'; which is in the database.
+	 */
+	public static Sensor getSensor(int id)
+	{
+		throw new UnsupportedOperationException("NYI!");
+		
+	}
+	
 	public int getSensorID() {
 		return sensorID;
 	}
@@ -48,10 +61,4 @@ public class Sensor {
 	public void setSensorType(SensorType sensorType) {
 		SensorType = sensorType;
 	}
-
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
 }
