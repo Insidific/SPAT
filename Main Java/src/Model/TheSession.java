@@ -43,9 +43,5 @@ public class TheSession {
 		this.stop = stop;
 	}	
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
 
 }
