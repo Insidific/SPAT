@@ -2,10 +2,12 @@ package Model;
 
 import java.util.ArrayList;
 
+import org.hibernate.mapping.Set;
+
 public class SensorType {
 	private int sensorTypeID;
 	private String name;
-	private ArrayList<DataType> dataTypes = new ArrayList<>();
+	private Set dataTypes;
 	
 	public SensorType() {
 		
@@ -27,11 +29,11 @@ public class SensorType {
 		this.name = name;
 	}
 
-	public ArrayList<DataType> getDataTypes() {
+	public Set getDataTypes() {
 		return dataTypes;
 	}
 
-	public void setDataTypes(ArrayList<DataType> dataTypes) {
+	public void setDataTypes(Set dataTypes) {
 		this.dataTypes = dataTypes;
 	}
 

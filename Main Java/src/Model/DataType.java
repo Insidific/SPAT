@@ -1,8 +1,11 @@
 package Model;
 
+import org.hibernate.mapping.Set;
+
 public class DataType {
 	private int dataTypeID;
 	private String name;
+	private Set sensorTypes;
 	
 	public DataType() {
 		
@@ -35,6 +38,14 @@ public class DataType {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Set getSensorTypes() {
+		return sensorTypes;
+	}
+
+	public void setSensorTypes(Set sensorTypes) {
+		this.sensorTypes = sensorTypes;
 	}
 
 }

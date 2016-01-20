@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="Model">
+
+    <class name="Data" table="data">
+      <meta attribute="class-description">
+         This class represents 1 piece of data received from the sensor in a session. 
+      </meta>
+	  
+	  <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+	  
+      <property name="data" column="data" type="double"/>
+      <property name="timeStamp" column="timestamp" type="java.sql.Timestamp"/>
+	  
+	  <many-to-one name="sensor" column="sensor_id" unique="false" 
+       class="Model.Sensor" not-null="true"/>
+	  <many-to-one name="session" column="session_id" unique="false" 
+       class="Model.TheSession" not-null="true"/>
+	  <many-to-one name="dataType" column="data_type_id" unique="false" 
+       class="Model.DataType" not-null="true"/>
+   </class>
+   
+    <class name="Sensor" table="sensors">
+      <meta attribute="class-description">
+         This class represents a single sensor in the sensor network 
+      </meta>
+	  <id name="sensorID" column="sensor_id">
+            <generator class="increment"/>
+        </id>
+	  
+      <property name="name" column="name" type="string"/>
+      <property name="location" column="location" type="string"/>
+	  
+	  <many-to-one name="sensorType" column="sensor_id" unique="true" 
+       class="Model.SensorType" not-null="true"/>
+	   
+   </class>
+   
+   <class name="Session" table="sessions">
+      <meta attribute="class-description">
+         This class represents a single session  
+      </meta>
+	  <id name="Session" column="sensor_id">
+            <generator class="increment"/>
+        </id>
+	  
+      <property name="name" column="name" type="string"/>
+      <property name="start" column="start" type="java.time.OffsetDateTime"/>
+      <property name="stop" column="stop" type="java.time.OffsetDateTime"/>
+	  
+	  <set name="datas" cascade="all">
+         <key column="session_id"/>
+         <one-to-many class="Session"/>
+      </set>
+	  
+   </class>
+   
+   <class name="SensorType" table="sensor_types">
+      <meta attribute="class-description">
+         This class represents different sensor types, such as Heatflux, and Air Sensors 
+      </meta>
+	  
+	  <id name="sensorTypeID" column="sensor_type_id">
+            <generator class="increment"/>
+        </id>
+	  
+      <property name="name" column="name" type="string"/>
+	  
+	  <set name="dataTypes" cascade="save-update" table="data_types_sensor_types">
+         <key column="sensor_type_id"/>
+         <many-to-many column="data_type_id" class="Model.DataType"/>
+      </set>
+	  
+   </class>
+   
+   <class name="DataType" table="data_types">
+      <meta attribute="class-description">
+         This class represents different data types, such as Surface Temperature and Heatflux  
+      </meta>
+	  
+	  <id name="DataTypeID" column="data_types">
+            <generator class="increment"/>
+        </id>
+	  
+      <property name="name" column="name" type="string"/>
+	  
+	  <set name="sensorTypes" cascade="save-update" table="data_types_sensor_types">
+         <key column="data_type_id"/>
+         <many-to-many column="sensor_type_id" class="Model.SensorType"/>
+      </set>
+   </class>
+
+</hibernate-mapping>
