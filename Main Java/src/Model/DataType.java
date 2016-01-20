@@ -1,4 +1,4 @@
-package com.sensored.Models;
+package Model;
 
 public class DataType {
 	private int dataTypeID;

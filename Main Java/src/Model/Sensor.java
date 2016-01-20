@@ -1,9 +1,13 @@
-package com.sensored.Models;
+package Model;
 
 public class Sensor {
 	private int sensorID, typeID;
 	private String name, location;
 	private SensorType SensorType;
+	
+	public Sensor() {
+		
+	}
 	
 	public int getSensorID() {
 		return sensorID;
@@ -43,10 +47,6 @@ public class Sensor {
 
 	public void setSensorType(SensorType sensorType) {
 		SensorType = sensorType;
-	}
-
-	public Sensor() {
-		
 	}
 
 	public static void main(String[] args) {

@@ -1,11 +1,15 @@
-package com.sensored.Models;
+package Model;
 
 import java.time.OffsetDateTime;
 
-public class Session {
+public class TheSession {
 	private int sessionID;
 	private String name;
 	private OffsetDateTime start, stop;	
+	
+	public TheSession() {
+		
+	}
 
 	public int getSessionID() {
 		return sessionID;
@@ -37,11 +41,7 @@ public class Session {
 
 	public void setStop(OffsetDateTime stop) {
 		this.stop = stop;
-	}
-
-	public Session() {
-		
-	}
+	}	
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
