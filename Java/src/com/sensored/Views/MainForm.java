@@ -13,6 +13,6 @@ public class MainForm {
     private JPanel aboutPanel;
 
     private void createUIComponents() {
-        sessionPanel = new SessionForm().panel1;
+        sensorsPanel = new SensorForm().getRoot();
     }
 }
