@@ -2,6 +2,16 @@
 
 class Data extends \Eloquent {
 	protected $fillable = [];
-}
 
-echo "1111";
+	public function dataType()	{
+		return $this->hasOne('DataType', 'data_types');
+	}
+
+	public function Sensor()	{
+		return $this->hasOne('Sensor', 'sensors');
+	}
+
+	public function TheSession() {
+		return $this->hasOne('TheSession', 'sessions');
+	}
+}
