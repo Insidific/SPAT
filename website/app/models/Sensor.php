@@ -3,11 +3,11 @@
 class Sensor extends \Eloquent {
 	protected $fillable = [];
 
-	public function phone()	{
-		return $this->hasOne('SensorType');
+	public function SensorType() {
+		return $this->hasOne('SensorType', 'sensor_types');
 	}
 
 	public function Data() {
-		return $this->belongsTo('Data');
+		return $this->belongsToMany('Data', 'data');
 	}
 }
