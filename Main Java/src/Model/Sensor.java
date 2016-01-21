@@ -68,4 +68,13 @@ public class Sensor {
 	public void setSensorType(SensorType sensorType) {
 		SensorType = sensorType;
 	}
+
+	@Override
+	public String toString() {
+		return "Sensor [sensorID=" + sensorID + ", typeID=" + typeID
+				+ ", name=" + name + ", location=" + location + ", SensorType="
+				+ SensorType + "]";
+	}
+	
+	
 }

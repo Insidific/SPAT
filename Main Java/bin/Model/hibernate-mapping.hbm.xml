@@ -17,12 +17,12 @@
          This class represents 1 piece of data received from the sensor in a session. 
       </meta>
 	  
-	  <id name="id" column="id">
+	  <id name="id" column="data_id">
             <generator class="increment"/>
         </id>
 	  
       <property name="data" column="data" type="double"/>
-      <property name="timeStamp" column="timestamp" type="java.sql.Timestamp"/>
+      <property name="timeStamp" column="timestamp" type="org.hibernate.type.OffsetDateTimeType"/>
 	  
 	  <many-to-one name="sensor" column="sensor_id" unique="false" 
        class="Model.Sensor" not-null="true"/>
@@ -57,8 +57,8 @@
         </id>
 	  
       <property name="name" column="name" type="string"/>
-      <property name="start" column="start" type="timestamp"/>
-      <property name="stop" column="stop" type="timestamp"/>
+      <property name="start" column="start" type="org.hibernate.type.OffsetDateTimeType"/>
+      <property name="stop" column="stop" type="org.hibernate.type.OffsetDateTimeType"/>
 	  
 	  <set name="datas" cascade="all">
          <key column="session_id"/>
@@ -90,7 +90,7 @@
          This class represents different data types, such as Surface Temperature and Heatflux  
       </meta>
 	  
-	  <id name="DataTypeID" column="data_types">
+	  <id name="DataTypeID" column="data_type_id">
             <generator class="increment"/>
         </id>
 	  

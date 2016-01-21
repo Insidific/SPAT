@@ -82,4 +82,11 @@ public class TheSession {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "TheSession [sessionID=" + sessionID + ", name=" + name + "]";
+	}
+	
+	
+
 }

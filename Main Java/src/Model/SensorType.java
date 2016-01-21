@@ -1,13 +1,11 @@
 package Model;
 
-import java.util.ArrayList;
-
-import org.hibernate.mapping.Set;
+import java.util.Set;
 
 public class SensorType {
 	private int sensorTypeID;
 	private String name;
-	private Set dataTypes;
+	private Set<DataType> dataTypes;
 	
 	public SensorType() {
 		
@@ -33,9 +31,15 @@ public class SensorType {
 		return dataTypes;
 	}
 
-	public void setDataTypes(Set dataTypes) {
+	public void setDataTypes(Set<DataType> dataTypes) {
 		this.dataTypes = dataTypes;
 	}
 
+	@Override
+	public String toString() {
+		return "SensorType [sensorTypeID=" + sensorTypeID + ", name=" + name
+				+ "]";
+	}
 
+	
 }

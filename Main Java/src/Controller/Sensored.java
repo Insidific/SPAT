@@ -21,12 +21,13 @@ public class Sensored
 	public static void main(String[] args)
 	{
 		setupDB();
+		startDataSession();
 		Data data = new Data(316.0, 1, "awesome_data");
-		Session session = sessionFactory.openSession();
+		Session session = getDatabaseSession();
 		session.beginTransaction();
 		session.save(data);
 		session.getTransaction().commit();
-		session.close();
+		doneWithDatabaseSession();
 	}
 
 	private static void setupDB()
@@ -63,7 +64,25 @@ public class Sensored
 	public static void startDataSession()
 	{
 		currentDataSession = new TheSession();
+		currentDataSession.start();
+		Session session = getDatabaseSession();
+		session.beginTransaction();
+		session.save(currentDataSession);
+		session.getTransaction().commit();
+		doneWithDatabaseSession();
 	}
+	
+	public static void stopDataSession()
+	{
+		currentDataSession.stop();
+		Session session = getDatabaseSession();
+		session.beginTransaction();
+		session.save(currentDataSession);
+		session.getTransaction().commit();
+		doneWithDatabaseSession();
+		currentDataSession = null;
+	}
+	
 
 	public static TheSession getCurrentDataSession() {
 		if(currentDataSession != null)
