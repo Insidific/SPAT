@@ -17,6 +17,15 @@ class HomeController extends BaseController {
 
 	public function showWelcome()
 	{
+		$data = Data::find(1);
+		echo '<pre>';
+		var_dump($data->sensor->sensorType->dataTypes);
+		echo '</pre>';
+		foreach($data->sensor->sensorType->dataTypes as $dataType)
+		{
+			echo $dataType->name;
+		}
+
 		return View::make('hello');
 	}
 
