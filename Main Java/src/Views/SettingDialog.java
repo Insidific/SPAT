@@ -2,6 +2,8 @@
  * Class that contains dialog where you set data.
  */
 
+package Views;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
