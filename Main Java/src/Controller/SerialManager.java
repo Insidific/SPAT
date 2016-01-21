@@ -85,7 +85,7 @@ public class SerialManager implements SerialPortEventListener {
 			{
 			    String out = buffer.substring(0, i);
 			    buffer.delete(0, i + 1);
-			    Data.parse(out);
+			   // Data.parse(out);
 			}
 		    }
 		}
