@@ -1,17 +1,19 @@
 <?php
 
 class Data extends \Eloquent {
+	protected $table = 'data';
+	protected $primaryKey = 'data_id';
 	protected $fillable = [];
 
-	public function dataType()	{
-		return $this->hasOne('DataType', 'data_types');
+	public function DataType()	{
+		return $this->hasMany('DataType', 'data_type_id');
 	}
 
-	public function Sensor()	{
-		return $this->hasOne('Sensor', 'sensors');
+	public function Sensor(){
+		return $this->hasOne('Sensor', 'sensor_id');
 	}
 
-	public function TheSession() {
-		return $this->hasOne('TheSession', 'sessions');
+	public function Session() {
+		return $this->hasOne('TheSession', 'session_id');
 	}
 }
