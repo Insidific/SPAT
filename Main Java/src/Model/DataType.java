@@ -29,7 +29,7 @@ public class DataType {
 	{
 		Session session = Sensored.getDatabaseSession();
 		@SuppressWarnings("unchecked")
-		List<DataType> list = (List<DataType>) session.createQuery("SELECT dt FROM DataType AS dt WHERE name = '"+name+"'").list();
+		List<DataType> list = (List<DataType>) session.createQuery("SELECT dt FROM DataType AS dt WHERE dt.name = '"+name+"'").list();
 		Sensored.doneWithDatabaseSession();
 		System.out.println(list);
 		if (list.size() == 1)

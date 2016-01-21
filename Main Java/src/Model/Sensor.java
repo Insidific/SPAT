@@ -7,10 +7,17 @@ import Controller.Sensored;
 public class Sensor {
 	private int sensorID, typeID;
 	private String name, location;
-	private SensorType SensorType;
+	private SensorType sensorType;
 	
 	public Sensor() {
 		
+	}
+	
+	public Sensor(int id, String sensorName, SensorType sensorType)
+	{
+		sensorID = id;
+		name = sensorName;
+		this.sensorType = sensorType;
 	}
 	
 	/**
@@ -20,11 +27,16 @@ public class Sensor {
 	 * @param id the id number to retrieve or create.
 	 * @return the instance of Sensor that has the ID given by 'id'; which is in the database.
 	 */
-	public static Sensor getSensor(int id)
+	public static Sensor getSensor(int id, String name, SensorType sensorType)
 	{
 		Sensor ret;
 		Session session = Sensored.getDatabaseSession();
 		ret = session.get(Sensor.class, id);
+		if (ret == null)
+		{
+			ret = new Sensor(id, name, sensorType);
+			session.save(ret);
+		}
 		Sensored.doneWithDatabaseSession();
 		return ret;
 	}
@@ -62,18 +74,18 @@ public class Sensor {
 	}
 
 	public SensorType getSensorType() {
-		return SensorType;
+		return sensorType;
 	}
 
 	public void setSensorType(SensorType sensorType) {
-		SensorType = sensorType;
+		this.sensorType = sensorType;
 	}
 
 	@Override
 	public String toString() {
 		return "Sensor [sensorID=" + sensorID + ", typeID=" + typeID
 				+ ", name=" + name + ", location=" + location + ", SensorType="
-				+ SensorType + "]";
+				+ sensorType + "]";
 	}
 	
 	
