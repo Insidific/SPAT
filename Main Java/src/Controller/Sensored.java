@@ -8,16 +8,25 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import Model.Data;
 import Model.TheSession;
 
 public class Sensored 
 {
 	private static TheSession currentDataSession = null;
+	private static Session currentDatabaseSession = null;
+	private static int databaseSessionUsers = 0;
 	private static SessionFactory sessionFactory;
 	
 	public static void main(String[] args)
 	{
 		setupDB();
+		Data data = new Data(316.0, 1, "awesome_data");
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		session.save(data);
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	private static void setupDB()
@@ -29,32 +38,40 @@ public class Sensored
 			.configure(configFile) // configures settings from hibernate.cfg.xml
 			.build();
 		System.out.println("Loaded configuration ("+configFile.getAbsolutePath()+").");
-		try
+	    sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+	    System.out.println("Done!");
+	}
+	
+	public static Session getDatabaseSession()
+	{
+		databaseSessionUsers++;
+		if (currentDatabaseSession == null)
+			currentDatabaseSession = sessionFactory.openSession();
+		return currentDatabaseSession;
+	}
+	
+	public static void doneWithDatabaseSession()
+	{
+		databaseSessionUsers--;
+		if (databaseSessionUsers == 0)
 		{
-		    sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-		    System.out.println("Done!");
-		} finally
-		{
-		    StandardServiceRegistryBuilder.destroy(registry);
+			currentDatabaseSession.close();
+			currentDatabaseSession = null;
 		}
 	}
 	
-	public static Session getSession() {
-		throw new UnsupportedOperationException("NYI!");
-	}
-	
-	public static TheSession getDataSession()
+	public static void startDataSession()
 	{
+		currentDataSession = new TheSession();
+	}
+
+	public static TheSession getCurrentDataSession() {
 		if(currentDataSession != null)
 			return currentDataSession;
 		else
 			throw new IllegalStateException("No current session!");
 	}
-
-	public static void doneWithSession() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	
 }

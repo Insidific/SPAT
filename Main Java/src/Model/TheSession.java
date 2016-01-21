@@ -8,7 +8,7 @@ public class TheSession {
 	private int sessionID;
 	private String name;
 	private OffsetDateTime start, stop;	
-	private Set Datas;
+	private Set datas;
 	
 	public TheSession() {
 		
@@ -47,12 +47,39 @@ public class TheSession {
 	}
 
 	public Set getDatas() {
-		return Datas;
+		return datas;
 	}
 
 	public void setDatas(Set datas) {
-		Datas = datas;
+		this.datas = datas;
 	}	
 	
+	public void start() throws IllegalStateException
+	{
+		if (start != null)
+		{
+			throw new IllegalStateException("This session has already been started (and possibly stopped too)");
+		}
+		else
+		{
+			start = OffsetDateTime.now();
+		}
+	}
+	
+	public void stop() throws IllegalStateException
+	{
+		if (stop != null)
+		{
+			throw new IllegalStateException("This session has already been stopped");
+		}
+		else if (start == null)
+		{
+			throw new IllegalStateException("This session hasn't been started yet");
+		}
+		else
+		{
+			stop = OffsetDateTime.now();
+		}
+	}
 
 }

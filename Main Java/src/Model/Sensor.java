@@ -1,5 +1,9 @@
 package Model;
 
+import org.hibernate.Session;
+
+import Controller.Sensored;
+
 public class Sensor {
 	private int sensorID, typeID;
 	private String name, location;
@@ -18,8 +22,11 @@ public class Sensor {
 	 */
 	public static Sensor getSensor(int id)
 	{
-		throw new UnsupportedOperationException("NYI!");
-		
+		Sensor ret;
+		Session session = Sensored.getDatabaseSession();
+		ret = session.get(Sensor.class, id);
+		Sensored.doneWithDatabaseSession();
+		return ret;
 	}
 	
 	public int getSensorID() {

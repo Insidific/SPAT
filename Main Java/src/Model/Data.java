@@ -4,6 +4,8 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import Controller.Sensored;
 
 public class Data {
@@ -30,7 +32,7 @@ public class Data {
 	
 	public Data(double data, int sensorID, String dataTypeName)
 	{
-		this(data, Sensor.getSensor(sensorID), Sensored.getDataSession(), DataType.getDataTypeByName(dataTypeName));
+		this(data, Sensor.getSensor(sensorID), Sensored.getCurrentDataSession(), DataType.getDataTypeByName(dataTypeName));
 	}
 
 	/**
@@ -51,6 +53,9 @@ public class Data {
 		Sensor sensor = Sensor.getSensor(nodeID);
 		sensor.setName(sensorName);
 		
+		Session session = Sensored.getDatabaseSession();
+		session.beginTransaction();
+		
 		
 		if(sensorType.equals("HFT"))
 		{
@@ -58,7 +63,7 @@ public class Data {
 			surfaceTemp = Double.parseDouble(split[5]);
 			double heatFlux = Double.parseDouble(split[3]);
 			Data heatFluxData = new Data(heatFlux, nodeID, "heat_flux");
-			Sensored.getSession().save(heatFluxData);
+			session.save(heatFluxData);
 		}
 		else if (sensorType.equals("Temp"))
 		{
@@ -71,10 +76,11 @@ public class Data {
 		}
 		Data airTempData = new Data(airTemp, nodeID, "air");
 		Data surfTempData = new Data(surfaceTemp, nodeID, "heat_flux");
-		Sensored.getSession().save(airTempData);
-		Sensored.getSession().save(surfTempData);
-		Sensored.getSession().save(sensor);
-		Sensored.doneWithSession();
+		session.save(airTempData);
+		session.save(surfTempData);
+		session.save(sensor);
+		session.getTransaction().commit();
+		Sensored.doneWithDatabaseSession();
 		return ret;
 	}
 
