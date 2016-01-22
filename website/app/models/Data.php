@@ -5,15 +5,18 @@ class Data extends \Eloquent {
 	protected $primaryKey = 'data_id';
 	protected $fillable = [];
 
-	public function DataType()	{
-		return $this->hasMany('DataType', 'data_type_id');
+	public function sensor()
+	{
+		return $this->belongsTo('Sensor', 'sensor_id');
 	}
 
-	public function Sensor(){
-		return $this->hasOne('Sensor', 'sensor_id');
+	public function session()
+	{
+		return $this->belongsTo('Session', 'session_id');
 	}
 
-	public function Session() {
-		return $this->hasOne('TheSession', 'session_id');
+	public function dataType()
+	{
+		return $this->hasOne('DataType', 'data_type_id');
 	}
 }

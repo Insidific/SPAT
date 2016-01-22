@@ -5,11 +5,13 @@ class SensorType extends \Eloquent {
 	protected $primaryKey = 'sensor_type_id';
 	protected $fillable = [];
 
-	public function Sensor() {
-		return $this->belongsToMany('Sensor', 'sensor_id');
+	public function sensors()
+	{
+		return $this->belongsToMany('Sensor');
 	}
 
-	public function DataTypes() {
-		return $this->belongsToMany('SensorType', 'data_types_sensor_types', 'sensor_type_id', 'data_type_id');
+	public function dataTypes()
+	{
+		return $this->belongsToMany('DataType', 'data_types_sensor_types', 'sensor_type_id', 'data_type_id');
 	}
 }
