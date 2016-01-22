@@ -54,10 +54,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'spat',
-			'username'  => 'root',
-			'password'  => 'katie',
+			'host'      => 'stb391.edu.csesalford.com',
+			'database'  => 'stb391_spat',
+			'username'  => 'stb391',
+			'password'  => 'password@1',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
