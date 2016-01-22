@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import Model.Data;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
@@ -87,13 +89,13 @@ public class SerialManager implements SerialPortEventListener {
 			{
 			    String out = buffer.substring(0, i);
 			    buffer.delete(0, i + 1);
-			   // Data.parse(out);
+			    Data.parseData(out);
 			}
 		    }
 		}
 	    } catch (SerialPortException ex)
 	    {
-		Logger.getLogger(SerialTest.class.getName()).log(Level.SEVERE, null, ex);
+		Logger.getLogger(SerialManager.class.getName()).log(Level.SEVERE, null, ex);
 	    }
 
 	}
