@@ -38,51 +38,64 @@ public class Data {
 	/**
 	 * Parses a data line from the Arduino into a set of Data objects.
 	 * @param dataline the data line to parse.
-	 * @return A List object filled with Data objects.
 	 */
-	public static List<Data> parseData(String dataline)
+	public static void parseData(String dataline)
 	{
-		List<Data> ret = new ArrayList<>();
-		String[] split = dataline.split(",");
-		int nodeID = Integer.parseInt(split[0]);
-		String sensorTypeName = split[1];
-		String sensorName = split[2];
-		double airTemp;
-		double surfaceTemp;
-		
-		SensorType sensorType = SensorType.getSensorTypeByName(sensorTypeName);
-		Sensor sensor = Sensor.getSensor(nodeID, sensorName, sensorType);
-		sensor.setName(sensorName);
-		
-		Session session = Sensored.getDatabaseSession();
-		session.beginTransaction();
-		
-		
-		if(sensorTypeName.equals("HFT"))
+		try
 		{
-			airTemp = Double.parseDouble(split[4]);
-			surfaceTemp = Double.parseDouble(split[5]);
-			double heatFlux = Double.parseDouble(split[3]);
-			Data heatFluxData = new Data(heatFlux, sensor, "Heatflux");
-			session.save(heatFluxData);
+			List<Data> ret = new ArrayList<>();
+			String[] split = dataline.split(",");
+			int nodeID = Integer.parseInt(split[0]);
+			String sensorTypeName = split[1];
+			String sensorName = split[2];
+			double airTemp;
+			double surfaceTemp;
+			
+			SensorType sensorType = SensorType.getSensorTypeByName(sensorTypeName);
+			Sensor sensor = Sensor.getSensor(nodeID, sensorName, sensorType);
+			sensor.setName(sensorName);
+			
+			Sensored.getCurrentDataSession();
+			
+			Session session = Sensored.getDatabaseSession();
+			session.beginTransaction();
+			
+			
+			if(sensorTypeName.equals("HFT"))
+			{
+				airTemp = Double.parseDouble(split[4]);
+				surfaceTemp = Double.parseDouble(split[5]);
+				double heatFlux = Double.parseDouble(split[3]);
+				Data heatFluxData = new Data(heatFlux, sensor, "Heatflux");
+				session.save(heatFluxData);
+			}
+			else if (sensorTypeName.equals("Temp"))
+			{
+				airTemp = Double.parseDouble(split[3]);
+				surfaceTemp = Double.parseDouble(split[4]);
+			}
+			else
+			{
+				throw new IllegalArgumentException("Unrecognised sensor type!");
+			}
+			Data airTempData = new Data(airTemp, sensor, "Air");
+			Data surfTempData = new Data(surfaceTemp, sensor, "Surface");
+			session.save(airTempData);
+			session.save(surfTempData);
+			session.saveOrUpdate(sensor);
+			session.getTransaction().commit();
+			Sensored.doneWithDatabaseSession();
+			
 		}
-		else if (sensorTypeName.equals("Temp"))
+		catch(IllegalStateException ex)
 		{
-			airTemp = Double.parseDouble(split[3]);
-			surfaceTemp = Double.parseDouble(split[4]);
+			System.out.println("Data ignored: no current logging session");
+			
 		}
-		else
+		catch (NumberFormatException | ArrayIndexOutOfBoundsException ex)
 		{
-			throw new IllegalArgumentException("Unrecognised sensor type!");
+			System.err.println("Data validation failed; " + ex.getMessage());
 		}
-		Data airTempData = new Data(airTemp, sensor, "Air");
-		Data surfTempData = new Data(surfaceTemp, sensor, "Surface");
-		session.save(airTempData);
-		session.save(surfTempData);
-		session.saveOrUpdate(sensor);
-		session.getTransaction().commit();
-		Sensored.doneWithDatabaseSession();
-		return ret;
 	}
 
 	public OffsetDateTime getTimeStamp() {
