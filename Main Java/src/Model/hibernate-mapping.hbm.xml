@@ -37,8 +37,7 @@
          This class represents a single sensor in the sensor network 
       </meta>
 	  <id name="sensorID" column="sensor_id">
-            <generator class="increment"/>
-        </id>
+      </id>
 	  
       <property name="name" column="name" type="string"/>
       <property name="location" column="location" type="string"/>
