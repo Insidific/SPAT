@@ -19,6 +19,7 @@ public class Sensored
 	private static Session currentDatabaseSession = null;
 	private static int databaseSessionUsers = 0;
 	private static SessionFactory sessionFactory;
+	private static SerialManager serialManager;
 	
 	public static void main(String[] args)
 	{
@@ -38,6 +39,9 @@ public class Sensored
 			session.save(data);
 			session.getTransaction().commit();
 			doneWithDatabaseSession();
+			
+			serialManager = new SerialManager();
+			serialManager.setPort("COM3");
 		}
 		finally
 		{
