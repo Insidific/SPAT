@@ -61,6 +61,16 @@ public class SettingDialog extends JDialog {
 	private JTextField textFieldArduinoStatus;
 	private JTextField textFieldDBStatus;
 	
+	private String stringPort;
+	private int intFieldPortSpeed;
+    	  private int intFieldPortDataBits ;
+    	  private int intFieldPortStopBits ;
+    	  private String stringTextFieldParitynone;
+    	  private String  stringTextFieldDBIP ;
+    	  private String stringTextFieldUsername ;
+    	  private String stringpasswordField ;
+    	  private String stringTextFieldDBName  ;
+	
 
 	/**
 	 * shows the Message dialog 
@@ -71,8 +81,8 @@ public class SettingDialog extends JDialog {
 			    "About Settings App",
 			    JOptionPane.INFORMATION_MESSAGE);
 		}
-	
 
+	  
 
 	/**
 	 * @param owner is the Main Window
@@ -84,6 +94,18 @@ public SettingDialog(JFrame owner) {
 	setPreferredSize(new Dimension(500, 350));
 	setSize(500, 350);
 	setLocationRelativeTo(null);
+	
+	stringPort = selectComPortComboBox.getSelectedItem().toString();
+	  intFieldPortSpeed = Integer.parseInt(textFieldPortSpeed.getText());
+	  intFieldPortDataBits = Integer.parseInt(textFieldPortDataBits.getText());
+	  intFieldPortStopBits = Integer.parseInt(textFieldPortStopBits.getText());
+	  stringTextFieldParitynone = textFieldParitynone.getText();
+	   stringTextFieldDBIP =   textFieldDBIP.getText();
+	  stringTextFieldUsername =  textFieldUsername.getText();
+	  stringpasswordField = passwordField.getText();
+	  stringTextFieldDBName  = textFieldDBName.getText();
+	
+
 
 			lblDBIP = new JLabel("DB IP");
 			lblDBIP.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -372,23 +394,25 @@ public SettingDialog(JFrame owner) {
 					btnCheckArduinoConnection = new JButton("Check Arduino Connection");
 					btnCheckArduinoConnection.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
-						  String stringPort = selectComPortComboBox.getSelectedItem().toString();
-						  int textFieldPortSpeed = Integer.parseInt(textFieldPortSpeed.getText());
-							    textFieldPortSpeed.getText(),
-							    textFieldPortDataBits.getText(),
-							    textFieldPortStopBits.getText(),
-							    textFieldParitynone.getText(),
-							    textFieldDBIP.getText(),
-							    textFieldUsername.getText(),
-							    passwordField.getText(),
-							    textFieldDBName.getText()
+						  stringPort = selectComPortComboBox.getSelectedItem().toString();
+						  intFieldPortSpeed = Integer.parseInt(textFieldPortSpeed.getText());
+						  intFieldPortDataBits = Integer.parseInt(textFieldPortDataBits.getText());
+						  intFieldPortStopBits = Integer.parseInt(textFieldPortStopBits.getText());
+						  stringTextFieldParitynone = textFieldParitynone.getText();
+//						  stringTextFieldDBIP =   textFieldDBIP.getText();
+//						  stringTextFieldUsername =  textFieldUsername.getText();
+//						  stringpasswordField = passwordField.getText();
+//						  stringTextFieldDBName  = textFieldDBName.getText();
 						    
 						    if(stringPort .isEmpty() || stringPort .startsWith("Select") 
-							    || portSpeed .isEmpty() ||  portDataBits .isEmpty()
-							    ||  portStopBits .isEmpty() ||  portParity .isEmpty()  
-								    ||  dbIP .isEmpty() ||  dbUsername .isEmpty() 
-								    ||  dbPassword .isEmpty()
-									    ||  dbName .isEmpty() ){ 
+							    ||  stringTextFieldParitynone .isEmpty()  
+							    )
+//							    ||  stringTextFieldDBIP.isEmpty() 
+//							    ||  stringTextFieldUsername .isEmpty()     
+
+//							    ||  stringpasswordField .isEmpty()
+//							    ||  stringTextFieldDBName .isEmpty() )
+							    { 
 							
 						    } else {
 							// if is everything ok
