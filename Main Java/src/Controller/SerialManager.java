@@ -15,7 +15,7 @@ import jssc.SerialPortList;
 
 public class SerialManager implements SerialPortEventListener {
 
-	String portNumber = "COM3";
+	String portNumber = "COM6";
 	int portSpeed = 115200;
 	int portDataBits = 8;
 	int portStopBits = 1;
@@ -37,12 +37,17 @@ public class SerialManager implements SerialPortEventListener {
 
 	public void init()
 	{
+		System.out.println("Initialising port.");
 		try
 		{
 			if (port != null && port.getPortName() != portNumber)
+			{
+				System.out.println("\tClosing existing port.");
 				port.closePort();
+			}
 			if (port == null || port.getPortName() != portNumber)
 			{
+				System.out.println("\tOpening port "+portNumber+".");
 				port = new SerialPort(portNumber);
 				port.openPort();
 				port.addEventListener(this);
@@ -112,6 +117,7 @@ public class SerialManager implements SerialPortEventListener {
 						char c = buffer.charAt(i);
 						if (c == '\n') {
 							String out = buffer.substring(0, i);
+							System.out.println("Got message from Arduino: " + out);
 							buffer.delete(0, i + 1);
 							Data.parseData(out);
 						}
