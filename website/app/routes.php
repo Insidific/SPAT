@@ -11,6 +11,9 @@
 |
 */
 
-Route::get('/', 'HomeController@showWelcome');
-Route::get('petr/', 'HomeController@showPetr');
-Route::get('katie/', 'HomeController@showPetr');
+Route::get('/', function()
+{
+	return View::make('hello');
+});
+
+Route::get('/sessions',array('uses' => 'HomeController@showSessions'));

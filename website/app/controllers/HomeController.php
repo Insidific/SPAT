@@ -17,16 +17,21 @@ class HomeController extends BaseController {
 
 	public function showWelcome()
 	{
-		$data = Data::find(1);
-		echo '<pre>';
-		var_dump($data->sensor->sensorType->dataTypes);
-		echo '</pre>';
-		foreach($data->sensor->sensorType->dataTypes as $dataType)
-		{
-			echo $dataType->name;
-		}
 
 		return View::make('hello');
+	}
+
+	public function showSessions() {
+		$data = TheSession::get();
+		foreach($data as $session) {
+			var_dump(Data::find(5)->sensor);
+			foreach($session->sensors as $sensor) {
+				var_dump($sensor);
+			}
+		}
+
+
+		return View::make('sessions', ['data' => $data]);
 	}
 
 }

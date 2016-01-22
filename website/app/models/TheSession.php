@@ -8,4 +8,8 @@ class TheSession extends \Eloquent {
 	public function Data() {
 		return $this->belongsToMany('Data', 'session_id');
 	}
+
+	public function Sensors() {
+		return $this->hasManyThrough('Sensor', 'Data', 'session_id', 'sensor_id');
+	}
 }
