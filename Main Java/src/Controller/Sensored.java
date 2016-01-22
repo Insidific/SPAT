@@ -122,6 +122,11 @@ public class Sensored
 		else
 			throw new IllegalStateException("No current session!");
 	}
+
+	public static SerialManager getSerialManager() {
+		return serialManager;
+	}
+	
 	
 	
 	
