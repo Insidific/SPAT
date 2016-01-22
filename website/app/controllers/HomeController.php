@@ -30,6 +30,9 @@ class HomeController extends BaseController {
 			}
 		}
 
+		echo '<pre>';
+		var_dump(DB::getQueryLog());
+		echo '</pre>';
 
 		return View::make('sessions', ['data' => $data]);
 	}
