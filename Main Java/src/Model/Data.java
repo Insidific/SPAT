@@ -4,6 +4,8 @@ import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import Controller.Sensored;
 
 public class Data {
@@ -20,7 +22,7 @@ public class Data {
 	
 	public Data(double data, Sensor sensor, TheSession session, DataType dataType) 
 	{
-		super();
+		this();
 		this.timeStamp = OffsetDateTime.now();
 		this.data = data;
 		this.sensor = sensor;
@@ -28,9 +30,9 @@ public class Data {
 		this.dataType = dataType;
 	}
 	
-	public Data(double data, int sensorID, String dataTypeName)
+	public Data(double data, Sensor sensor, String dataTypeName)
 	{
-		this(data, Sensor.getSensor(sensorID), Sensored.getDataSession(), DataType.getDataTypeByName(dataTypeName));
+		this(data, sensor, Sensored.getCurrentDataSession(), DataType.getDataTypeByName(dataTypeName));
 	}
 
 	/**
@@ -43,13 +45,17 @@ public class Data {
 		List<Data> ret = new ArrayList<>();
 		String[] split = dataline.split(",");
 		int nodeID = Integer.parseInt(split[0]);
-		String sensorType = split[1];
+		String sensorTypeName = split[1];
 		String sensorName = split[2];
 		double airTemp;
 		double surfaceTemp;
 		
-		Sensor sensor = Sensor.getSensor(nodeID);
+		SensorType sensorType = SensorType.getSensorTypeByName(sensorTypeName);
+		Sensor sensor = Sensor.getSensor(nodeID, sensorName, sensorType);
 		sensor.setName(sensorName);
+		
+		Session session = Sensored.getDatabaseSession();
+		session.beginTransaction();
 		
 		
 		if(sensorType.equals("HFT"))
@@ -57,8 +63,8 @@ public class Data {
 			airTemp = Double.parseDouble(split[4]);
 			surfaceTemp = Double.parseDouble(split[5]);
 			double heatFlux = Double.parseDouble(split[3]);
-			Data heatFluxData = new Data(heatFlux, nodeID, "heat_flux");
-			Sensored.getSession().save(heatFluxData);
+			Data heatFluxData = new Data(heatFlux, sensor, "Heatflux");
+			session.save(heatFluxData);
 		}
 		else if (sensorType.equals("Temp"))
 		{
@@ -69,12 +75,13 @@ public class Data {
 		{
 			throw new IllegalArgumentException("Unrecognised sensor type!");
 		}
-		Data airTempData = new Data(airTemp, nodeID, "air");
-		Data surfTempData = new Data(surfaceTemp, nodeID, "heat_flux");
-		Sensored.getSession().save(airTempData);
-		Sensored.getSession().save(surfTempData);
-		Sensored.getSession().save(sensor);
-		Sensored.doneWithSession();
+		Data airTempData = new Data(airTemp, sensor, "Air");
+		Data surfTempData = new Data(surfaceTemp, sensor, "Surface");
+		session.save(airTempData);
+		session.save(surfTempData);
+		session.save(sensor);
+		session.getTransaction().commit();
+		Sensored.doneWithDatabaseSession();
 		return ret;
 	}
 
