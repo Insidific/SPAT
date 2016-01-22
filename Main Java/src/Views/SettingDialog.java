@@ -18,6 +18,9 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -35,10 +38,14 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
+import jssc.SerialPortList;
+
 //import library.ReaderWriter;
 //import library.BookStorage;
 
-public class SettingDialog extends JDialog {
+public class SettingDialog extends JDialog implements SerialPortEventListener {
 	JTextField textFieldDBIP, textFieldUsername,
 	textFieldDBPort,textFieldDBName;
 	JLabel lblDBIP, lblDBPort,
@@ -62,9 +69,9 @@ public class SettingDialog extends JDialog {
 	private JTextField textFieldDBStatus;
 	
 	private String stringPort;
-	private int intFieldPortSpeed;
-    	  private int intFieldPortDataBits ;
-    	  private int intFieldPortStopBits ;
+	private String stringFieldPortSpeed;
+    	  private String stringFieldPortDataBits ;
+    	  private String stringFieldPortStopBits ;
     	  private String stringTextFieldParitynone;
     	  private String  stringTextFieldDBIP ;
     	  private String stringTextFieldUsername ;
@@ -96,9 +103,9 @@ public SettingDialog(JFrame owner) {
 	setLocationRelativeTo(null);
 	
 	stringPort = selectComPortComboBox.getSelectedItem().toString();
-	  intFieldPortSpeed = Integer.parseInt(textFieldPortSpeed.getText());
-	  intFieldPortDataBits = Integer.parseInt(textFieldPortDataBits.getText());
-	  intFieldPortStopBits = Integer.parseInt(textFieldPortStopBits.getText());
+	stringFieldPortSpeed = textFieldPortSpeed.getText();
+	stringFieldPortDataBits = textFieldPortDataBits.getText();
+	stringFieldPortStopBits = textFieldPortStopBits.getText();
 	  stringTextFieldParitynone = textFieldParitynone.getText();
 	   stringTextFieldDBIP =   textFieldDBIP.getText();
 	  stringTextFieldUsername =  textFieldUsername.getText();
@@ -381,6 +388,11 @@ public SettingDialog(JFrame owner) {
 					gbc_selectComPortComboBox.insets = new Insets(0, 0, 5, 0);
 					gbc_selectComPortComboBox.gridx = 1;
 					gbc_selectComPortComboBox.gridy = 6;
+					selectComPortComboBox.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+//						   System.out.println( listPorts());
+						}
+					});
 					LeftPanel.add(selectComPortComboBox, gbc_selectComPortComboBox);
 					selectComPortComboBox.setFont(new Font("Tahoma", Font.BOLD, 12));
 					
@@ -395,27 +407,30 @@ public SettingDialog(JFrame owner) {
 					btnCheckArduinoConnection.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
 						  stringPort = selectComPortComboBox.getSelectedItem().toString();
-						  intFieldPortSpeed = Integer.parseInt(textFieldPortSpeed.getText());
-						  intFieldPortDataBits = Integer.parseInt(textFieldPortDataBits.getText());
-						  intFieldPortStopBits = Integer.parseInt(textFieldPortStopBits.getText());
+						  stringFieldPortSpeed = textFieldPortSpeed.getText();
+						  stringFieldPortDataBits = textFieldPortDataBits.getText();
+						  stringFieldPortStopBits = textFieldPortStopBits.getText();
 						  stringTextFieldParitynone = textFieldParitynone.getText();
-//						  stringTextFieldDBIP =   textFieldDBIP.getText();
-//						  stringTextFieldUsername =  textFieldUsername.getText();
-//						  stringpasswordField = passwordField.getText();
-//						  stringTextFieldDBName  = textFieldDBName.getText();
 						    
-						    if(stringPort .isEmpty() || stringPort .startsWith("Select") 
-							    ||  stringTextFieldParitynone .isEmpty()  
+						  // parseWithDefault(String number, int defaultVal)
+						  
+						    if(stringPort.isEmpty() || stringPort.startsWith("Select") 
+							    ||  stringTextFieldParitynone.isEmpty()    
+							    ||  stringFieldPortSpeed.isEmpty()
+							    ||  stringFieldPortDataBits.isEmpty() 
+							    ||  stringFieldPortStopBits .isEmpty() 
+							    ||  stringTextFieldParitynone.isEmpty() 
+							    
 							    )
-//							    ||  stringTextFieldDBIP.isEmpty() 
-//							    ||  stringTextFieldUsername .isEmpty()     
-
-//							    ||  stringpasswordField .isEmpty()
-//							    ||  stringTextFieldDBName .isEmpty() )
 							    { 
 							
 						    } else {
 							// if is everything ok
+							int intTextFieldParitynone = parseWithDefault(stringTextFieldParitynone, 0);
+							int intFieldPortSpeed = parseWithDefault(stringFieldPortSpeed, 0);
+							int intFieldPortDataBits = parseWithDefault(stringFieldPortDataBits, 0);
+							int intFieldPortStopBits = parseWithDefault(stringFieldPortStopBits, 0);
+							
 						    }
 						    
 						}
@@ -637,6 +652,21 @@ public SettingDialog(JFrame owner) {
 	
 	   }
 /**
+ * 
+ * @param number
+ * @param defaultVal
+ * @return 
+ * Wheh we take data from the text field the change data from string to String
+ */
+protected static int parseWithDefault(String number, int defaultVal) {
+    try {
+      return Integer.parseInt(number);
+    } catch (NumberFormatException e) {
+      return defaultVal;
+    }
+  }
+
+/**
  * save settings to text file.
  */
 protected void saveToFile(String stringPort, String  portSpeed, String  portDataBits,
@@ -661,6 +691,21 @@ protected void openFromFile() {
     // int i = Integer.parseInt(myString);
 	ReaderWriter readerWriter = new ReaderWriter("settingsIO.txt");
 
+}
+
+public static Set<String> listPorts(){
+	String[] portNames = SerialPortList.getPortNames();
+	Set<String> ret = new HashSet<>();
+	ret.addAll(Arrays.asList(portNames));
+	return ret;
+}
+
+
+
+@Override
+public void serialEvent(SerialPortEvent serialPortEvent) {
+    // TODO Auto-generated method stub
+    
 }
 	
 }

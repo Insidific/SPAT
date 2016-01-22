@@ -46,7 +46,10 @@ import javax.swing.JLayeredPane;
 
 import java.awt.BorderLayout;
 
-public class UIApp extends JFrame {
+import jssc.SerialPortEvent;
+import jssc.SerialPortEventListener;
+
+public class UIApp extends JFrame implements SerialPortEventListener  {
 	// add member variable JSplit split the window to 2 parts
 	JSplitPane contentPane;
 	private final JPanel panel = new JPanel();
@@ -250,6 +253,13 @@ public class UIApp extends JFrame {
 	    }
 	});
 
+    }
+
+
+    @Override
+    public void serialEvent(SerialPortEvent serialPortEvent) {
+	// TODO Auto-generated method stub
+	
     }
 
 }
