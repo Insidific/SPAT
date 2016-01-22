@@ -58,7 +58,7 @@ public class Data {
 		session.beginTransaction();
 		
 		
-		if(sensorType.equals("HFT"))
+		if(sensorTypeName.equals("HFT"))
 		{
 			airTemp = Double.parseDouble(split[4]);
 			surfaceTemp = Double.parseDouble(split[5]);
@@ -66,7 +66,7 @@ public class Data {
 			Data heatFluxData = new Data(heatFlux, sensor, "Heatflux");
 			session.save(heatFluxData);
 		}
-		else if (sensorType.equals("Temp"))
+		else if (sensorTypeName.equals("Temp"))
 		{
 			airTemp = Double.parseDouble(split[3]);
 			surfaceTemp = Double.parseDouble(split[4]);
@@ -79,7 +79,7 @@ public class Data {
 		Data surfTempData = new Data(surfaceTemp, sensor, "Surface");
 		session.save(airTempData);
 		session.save(surfTempData);
-		session.save(sensor);
+		session.saveOrUpdate(sensor);
 		session.getTransaction().commit();
 		Sensored.doneWithDatabaseSession();
 		return ret;

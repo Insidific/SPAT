@@ -23,31 +23,31 @@ public class Sensored
 	
 	public static void main(String[] args)
 	{
-		try
-		{
+//		try
+//		{
 			setupDB();
 			startDataSession();
-			Data data = new Data(
-					316.0, 
-					Sensor.getSensor(
-							1, 
-							"Best Sensor", 
-							SensorType.getSensorTypeByName("HFT")), 
-					"Heatflux");
-			Session session = getDatabaseSession();
-			session.beginTransaction();
-			session.save(data);
-			session.getTransaction().commit();
-			doneWithDatabaseSession();
+//			Data data = new Data(
+//					316.0, 
+//					Sensor.getSensor(
+//							1, 
+//							"Best Sensor", 
+//							SensorType.getSensorTypeByName("HFT")), 
+//					"Heatflux");
+//			Session session = getDatabaseSession();
+//			session.beginTransaction();
+//			session.save(data);
+//			session.getTransaction().commit();
+//			doneWithDatabaseSession();
 			
 			serialManager = new SerialManager();
-			serialManager.setPort("COM3");
-		}
-		finally
-		{
-			if (currentDataSession != null)
-				stopDataSession();
-		}
+			//serialManager.setPort("COM3");
+//		}
+//		finally
+//		{
+//			if (currentDataSession != null)
+//				stopDataSession();
+//		}
 		
 	}
 
