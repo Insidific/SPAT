@@ -8,9 +8,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import Model.Data;
-import Model.Sensor;
-import Model.SensorType;
 import Model.TheSession;
 
 public class Sensored 
