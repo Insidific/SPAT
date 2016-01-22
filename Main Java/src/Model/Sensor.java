@@ -32,10 +32,14 @@ public class Sensor {
 		Sensor ret;
 		Session session = Sensored.getDatabaseSession();
 		ret = session.get(Sensor.class, id);
+		System.out.println("Retreiving Sensor with ID# " + id + " = " + ret);
 		if (ret == null)
 		{
 			ret = new Sensor(id, name, sensorType);
+			System.out.println("Creating new Sensor: " + ret);
+			session.beginTransaction();
 			session.save(ret);
+			session.getTransaction().commit();
 		}
 		Sensored.doneWithDatabaseSession();
 		return ret;
