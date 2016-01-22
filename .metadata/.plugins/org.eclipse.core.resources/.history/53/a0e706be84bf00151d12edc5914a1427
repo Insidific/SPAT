@@ -1,0 +1,33 @@
+package Controller;
+
+import Model.TheSession;
+
+public class Sensored 
+{
+	private static TheSession currentDataSession = null;
+	
+	public static void main(String[] args)
+	{
+		
+	}
+
+	public static Session getSession() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public static TheSession getDataSession()
+	{
+		if(currentDataSession != null)
+			return currentDataSession;
+		else
+			throw new IllegalStateException("No current session!");
+	}
+
+	public static void doneWithSession() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
+}
