@@ -46,6 +46,7 @@ import Controller.Sensored;
 import Controller.SerialManager;
 import javax.swing.event.PopupMenuListener;
 import javax.swing.event.PopupMenuEvent;
+import javax.swing.DefaultComboBoxModel;
 
 //import library.ReaderWriter;
 //import library.BookStorage;
@@ -81,6 +82,7 @@ public class SettingDialog extends JDialog implements SerialPortEventListener {
     private String stringTextFieldUsername;
     private String stringpasswordField;
     private String stringTextFieldDBName;
+    private JLabel lblSelectComPort;
 
     /**
      * shows the Message dialog
@@ -231,26 +233,26 @@ public class SettingDialog extends JDialog implements SerialPortEventListener {
 	gbc_rightPanelTop.gridx = 1;
 	gbc_rightPanelTop.gridy = 0;
 	layeredPaneSettings.add(rightPanelTop, gbc_rightPanelTop);
+	
+		// add button that add books to the library
+		JButton btnAcceptAll = new JButton("Accept All");
+		rightPanelTop.add(btnAcceptAll);
+		btnAcceptAll.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent arg0) {
+			saveToFile(selectComPortComboBox.getSelectedItem().toString(),
+				textFieldPortSpeed.getText(),
+				textFieldPortDataBits.getText(),
+				textFieldPortStopBits.getText(),
+				textFieldParitynone.getText(), textFieldDBIP.getText(),
+				textFieldUsername.getText(), passwordField.getText(),
+				textFieldDBName.getText());
 
-	// add button that add books to the library
-	JButton btnAcceptAll = new JButton("Accept All");
-	btnAcceptAll.addActionListener(new ActionListener() {
-	    public void actionPerformed(ActionEvent arg0) {
-		saveToFile(selectComPortComboBox.getSelectedItem().toString(),
-			textFieldPortSpeed.getText(),
-			textFieldPortDataBits.getText(),
-			textFieldPortStopBits.getText(),
-			textFieldParitynone.getText(), textFieldDBIP.getText(),
-			textFieldUsername.getText(), passwordField.getText(),
-			textFieldDBName.getText());
-
-	    }
-	});
-	btnAcceptAll.setFont(new Font("Tahoma", Font.BOLD, 11));
-	rightPanelTop.add(btnAcceptAll);
-
-	btnAcceptAll.setBackground(new Color(0, 204, 255));
-	btnAcceptAll.setForeground(new Color(0, 153, 0));
+		    }
+		});
+		btnAcceptAll.setFont(new Font("Tahoma", Font.BOLD, 11));
+		
+			btnAcceptAll.setBackground(new Color(0, 204, 255));
+			btnAcceptAll.setForeground(new Color(0, 153, 0));
 
 	JPanel LeftPanel = new JPanel();
 	LeftPanel.setBackground(SystemColor.activeCaption);
@@ -386,10 +388,10 @@ public class SettingDialog extends JDialog implements SerialPortEventListener {
 	gbc_textFieldParitynone.gridy = 5;
 	LeftPanel.add(textFieldParitynone, gbc_textFieldParitynone);
 	GridBagConstraints gbc_selectComPortComboBox = new GridBagConstraints();
-	gbc_selectComPortComboBox.fill = GridBagConstraints.BOTH;
 	gbc_selectComPortComboBox.insets = new Insets(0, 0, 5, 0);
 	gbc_selectComPortComboBox.gridx = 1;
 	gbc_selectComPortComboBox.gridy = 6;
+	selectComPortComboBox.setModel(new DefaultComboBoxModel(new String[] {"Select COM Port"}));
 	selectComPortComboBox.addPopupMenuListener(new PopupMenuListener() {
 		public void popupMenuCanceled(PopupMenuEvent arg0) {
 		}
@@ -409,11 +411,21 @@ public class SettingDialog extends JDialog implements SerialPortEventListener {
 	    public void actionPerformed(ActionEvent e) {
 	    }
 	});
+	
+	lblSelectComPort = new JLabel("Select COM Port");
+	lblSelectComPort.setFont(new Font("Arial", Font.PLAIN, 14));
+	GridBagConstraints gbc_lblSelectComPort = new GridBagConstraints();
+	gbc_lblSelectComPort.insets = new Insets(0, 0, 5, 5);
+	gbc_lblSelectComPort.anchor = GridBagConstraints.EAST;
+	gbc_lblSelectComPort.gridx = 0;
+	gbc_lblSelectComPort.gridy = 6;
+	LeftPanel.add(lblSelectComPort, gbc_lblSelectComPort);
 	LeftPanel.add(selectComPortComboBox, gbc_selectComPortComboBox);
 	selectComPortComboBox.setFont(new Font("Tahoma", Font.BOLD, 12));
 
 	selectComPortComboBox.setForeground(Color.RED);
 	selectComPortComboBox.setBackground(SystemColor.activeCaption);
+	
 	// selectComPortComboBox.addItem("Select COM Port");
 	// selectComPortComboBox.addItem("COM1");
 	// selectComPortComboBox.addItem("COM2");
