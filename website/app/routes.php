@@ -16,4 +16,8 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
-Route::get('/sessions',array('uses' => 'HomeController@showSessions'));
+Route::get('/sessions',array('uses' => 'SessionsController@index'));
+Route::get('/sessions/{id}',array('uses' => 'SessionsController@show'));
+Route::get('/sessions/{id}/edit',array('uses' => 'SessionsController@edit'));
+Route::get('/sessions/{id}/update',array('uses' => 'SessionsController@update'));
+Route::get('/sessions/{id}/delete',array('uses' => 'SessionsController@destroy'));
