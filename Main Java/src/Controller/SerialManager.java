@@ -31,9 +31,9 @@ public class SerialManager implements SerialPortEventListener {
 	}
 	
 	public SerialManager()
-    {
-		 init();
-    }
+        {
+	    
+        }
 
 	public void init()
 	{
@@ -43,7 +43,9 @@ public class SerialManager implements SerialPortEventListener {
 			if (port != null && port.getPortName() != portNumber)
 			{
 				System.out.println("\tClosing existing port.");
-				port.closePort();
+				if (port.isOpened())
+				    port.closePort();
+				port = null;
 			}
 			if (port == null || port.getPortName() != portNumber)
 			{

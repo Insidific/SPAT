@@ -9,6 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import Model.TheSession;
+import Views.UIApp;
 
 public class Sensored 
 {
@@ -17,35 +18,15 @@ public class Sensored
 	private static int databaseSessionUsers = 0;
 	private static SessionFactory sessionFactory;
 	private static SerialManager serialManager;
+	private static UIApp ui;
 	
 	public static void main(String[] args)
 	{
-//		try
-//		{
-			setupDB();
-			startDataSession();
-//			Data data = new Data(
-//					316.0, 
-//					Sensor.getSensor(
-//							1, 
-//							"Best Sensor", 
-//							SensorType.getSensorTypeByName("HFT")), 
-//					"Heatflux");
-//			Session session = getDatabaseSession();
-//			session.beginTransaction();
-//			session.save(data);
-//			session.getTransaction().commit();
-//			doneWithDatabaseSession();
-			
-			serialManager = new SerialManager();
-			//serialManager.setPort("COM3");
-//		}
-//		finally
-//		{
-//			if (currentDataSession != null)
-//				stopDataSession();
-//		}
-		
+		setupDB();
+		serialManager = new SerialManager();
+		ui = new UIApp();
+		ui.setVisible(true);
+				
 	}
 
 	private static void setupDB()
@@ -83,6 +64,7 @@ public class Sensored
 	{
 		if (currentDataSession == null)
 		{
+		    	System.out.println("Starting data session.");
 			currentDataSession = new TheSession();
 			currentDataSession.start();
 			Session session = getDatabaseSession();
@@ -90,6 +72,7 @@ public class Sensored
 			session.save(currentDataSession);
 			session.getTransaction().commit();
 			doneWithDatabaseSession();
+			System.out.println("Data session started!");
 		}
 		else
 		{
@@ -101,18 +84,25 @@ public class Sensored
 	{
 		if (currentDataSession != null)
 		{
+		    	System.out.println("Stopping data session.");
 			currentDataSession.stop();
 			Session session = getDatabaseSession();
 			session.beginTransaction();
-			session.save(currentDataSession);
+			session.saveOrUpdate(currentDataSession);
 			session.getTransaction().commit();
 			doneWithDatabaseSession();
 			currentDataSession = null;
+			System.out.println("Data session stopped.");
 		}
 		else
 		{
 			throw new IllegalStateException("There is no current session to stop!");
 		}
+	}
+	
+	public static boolean isDataSessionRunning()
+	{
+	    return currentDataSession != null;
 	}
 	
 

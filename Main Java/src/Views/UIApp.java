@@ -21,6 +21,8 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
 import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
@@ -43,6 +45,9 @@ import java.awt.SystemColor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTabbedPane;
 import javax.swing.JLayeredPane;
+
+import Controller.Sensored;
+import Controller.SerialManager;
 
 import java.awt.BorderLayout;
 
@@ -191,6 +196,14 @@ public class UIApp extends JFrame implements SerialPortEventListener  {
 		gbc_comboBoxCOMPortMain.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBoxCOMPortMain.gridx = 0;
 		gbc_comboBoxCOMPortMain.gridy = 0;
+		comboBoxCOMPortMain.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			    String selected = (String)comboBoxCOMPortMain.getSelectedItem();
+			    System.out.println("User selected port: " + selected);
+			    if (selected != null)
+				Sensored.getSerialManager().setPort(selected);
+			}
+		});
 		
 		// set comboBox Font, color and add temporary data
 		comboBoxCOMPortMain.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -198,8 +211,21 @@ public class UIApp extends JFrame implements SerialPortEventListener  {
 		comboBoxCOMPortMain.setForeground(new Color(255, 0, 0));
 		panel.add(comboBoxCOMPortMain, gbc_comboBoxCOMPortMain);
 		comboBoxCOMPortMain.addItem("Select COM Port");
-		comboBoxCOMPortMain.addItem("COM1");
-		comboBoxCOMPortMain.addItem("COM2");
+		comboBoxCOMPortMain.addPopupMenuListener(new PopupMenuListener() {
+			public void popupMenuCanceled(PopupMenuEvent arg0) {
+			}
+			public void popupMenuWillBecomeInvisible(PopupMenuEvent arg0) {
+			}
+			public void popupMenuWillBecomeVisible(PopupMenuEvent arg0) {
+			    System.out.println("Ports Available: ");
+			    System.out.println(SerialManager.listPorts());
+			    comboBoxCOMPortMain.removeAllItems();
+			    for(String port: SerialManager.listPorts())
+			    {
+				comboBoxCOMPortMain.addItem(port);
+			    }
+	    		}
+	    	});
 		
 		GridBagConstraints gbc_btnStart = new GridBagConstraints();
 		gbc_btnStart.fill = GridBagConstraints.BOTH;
@@ -211,6 +237,23 @@ public class UIApp extends JFrame implements SerialPortEventListener  {
 		panel.add(btnStart, gbc_btnStart);
 		btnStart.setBackground(new Color(0, 204, 255));
 		btnStart.setForeground(new Color(0, 153, 0));
+		
+		btnStart.addActionListener(new ActionListener(){
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+			if (Sensored.isDataSessionRunning())
+			{
+			    Sensored.stopDataSession();
+			    btnStart.setText("Start");
+			}
+			else
+			{
+			    Sensored.startDataSession();
+			    btnStart.setText("Stop");
+			}
+			
+		    }
+		});
 		
 		GridBagConstraints gbc_btnWebsite = new GridBagConstraints();
 		gbc_btnWebsite.fill = GridBagConstraints.BOTH;
@@ -240,20 +283,20 @@ public class UIApp extends JFrame implements SerialPortEventListener  {
 				"UI App", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
-    public static void main(String[] args) {
-	EventQueue.invokeLater(new Runnable() {
-	    public void run() {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		    UIApp frame = new UIApp();
-		    frame.setVisible(true);
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
-	    }
-	});
-
-    }
+//    public static void main(String[] args) {
+//	EventQueue.invokeLater(new Runnable() {
+//	    public void run() {
+//		try {
+//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//		    UIApp frame = new UIApp();
+//		    frame.setVisible(true);
+//		} catch (Exception e) {
+//		    e.printStackTrace();
+//		}
+//	    }
+//	});
+//
+//    }
 
 
     @Override
