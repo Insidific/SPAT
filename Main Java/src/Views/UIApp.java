@@ -1,6 +1,7 @@
 package Views;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
@@ -53,6 +54,7 @@ import Controller.SerialManager;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
+import java.net.URL;
 
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
@@ -278,6 +280,7 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 				} catch (Exception e) {
 				    
 				}
+		    
 		}
 	});
 	// set Font and color for the Web button
