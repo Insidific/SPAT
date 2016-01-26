@@ -2,6 +2,9 @@ package Controller;
 
 import java.io.File;
 
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -22,6 +25,7 @@ public class Sensored
 	
 	public static void main(String[] args)
 	{
+	    
 		setupDB();
 		serialManager = new SerialManager();
 		ui = new UIApp();

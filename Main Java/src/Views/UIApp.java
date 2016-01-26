@@ -20,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
@@ -51,6 +52,7 @@ import Controller.Sensored;
 import Controller.SerialManager;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
 
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
@@ -265,6 +267,17 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 	gbc_btnWebsite.fill = GridBagConstraints.BOTH;
 	gbc_btnWebsite.gridx = 0;
 	gbc_btnWebsite.gridy = 2;
+	btnWebsite.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) {
+
+				try {
+					Process p = Runtime.getRuntime().exec("C:\\Program Files\\Internet Explorer\\iexplore.exe \"http://www.google.com\"");
+					Thread.sleep(5000);
+					p.destroy();
+					System.out.println("Return value was " + p.waitFor());
+				} catch (Exception e) {}
+		}
+	});
 	// set Font and color for the Web button
 	btnWebsite.setFont(new Font("Tahoma", Font.BOLD, 17));
 	panel.add(btnWebsite, gbc_btnWebsite);
@@ -314,9 +327,9 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
 		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
 		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20),
-			new Boolean(true) },
-		{ "Philip", "Milne", "Pool", new Integer(10) } };
+		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+		{ "Philip", "Milne", "Pool", new Integer(10) } 
+		};
 
 	JTable tableLiveData = new JTable(data, headers);
 	tableLiveData.setEnabled(false);
