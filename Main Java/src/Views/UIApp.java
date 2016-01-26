@@ -54,6 +54,7 @@ import Controller.SerialManager;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 
 import jssc.SerialPortEvent;
@@ -61,6 +62,8 @@ import jssc.SerialPortEventListener;
 
 import javax.swing.JTable;
 import javax.swing.JScrollBar;
+import javax.swing.ListSelectionModel;
+import javax.swing.AbstractListModel;
 
 public class UIApp extends JFrame implements SerialPortEventListener {
     // add member variable JSplit split the window to 2 parts
@@ -291,6 +294,8 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 		    if (osName.startsWith("Windows")) {
 			Runtime.getRuntime().exec(
 				"rundll32 url.dll,FileProtocolHandler " + url);
+		    } else {
+			// for other systems`
 		    }
 
 		} catch (Exception e) {
@@ -311,17 +316,56 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 	btnWebsite.setBackground(new Color(135, 206, 235));
 	btnWebsite.setForeground(new Color(0, 128, 128));
 	layeredPaneAchieveSensors.setBackground(SystemColor.inactiveCaption);
-	layeredPaneAchieveSensors.setToolTipText("Achive Sensors");
+	layeredPaneAchieveSensors.setToolTipText("Active Sensors");
 
-	tabbedPane.addTab("Achieve Sensors", null, layeredPaneAchieveSensors,
+	tabbedPane.addTab("Active Sensors", null, layeredPaneAchieveSensors,
 		null);
+	GridBagLayout gbl_layeredPaneAchieveSensors = new GridBagLayout();
+	gbl_layeredPaneAchieveSensors.columnWidths = new int[] {480};
+	gbl_layeredPaneAchieveSensors.rowHeights = new int[] {275};
+	gbl_layeredPaneAchieveSensors.columnWeights = new double[]{1.0};
+	gbl_layeredPaneAchieveSensors.rowWeights = new double[]{1.0, 1.0};
+	layeredPaneAchieveSensors.setLayout(gbl_layeredPaneAchieveSensors);
+	
+	JScrollPane scrollPaneActiveSensors = new JScrollPane();
+	scrollPaneActiveSensors.setVisible(true);
+	scrollPaneActiveSensors.setSize(400, 300);
+	scrollPaneActiveSensors.setBackground(new Color(135, 206, 235));
+	    String categories[] = { "Household", "Office", "Extended Family",
+		        "Company (US)", "Company (World)", "Team", "Will",
+		        "Birthday Card List", "High School", "Country", "Continent",
+		        "Planet" };
+	    JList listLiveData = new JList(categories);
+	    listLiveData.setVisibleRowCount(11);
+	    listLiveData.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	    listLiveData.setEnabled(false);
+	    listLiveData.setModel(new AbstractListModel() {
+	    	String[] values = new String[] {};
+	    	public int getSize() {
+	    		return values.length;
+	    	}
+	    	public Object getElementAt(int index) {
+	    		return values[index];
+	    	}
+	    });
+	    listLiveData.setBackground(new Color(135, 206, 235));
+	    listLiveData.setSize(400, 400);
+	    scrollPaneActiveSensors = new JScrollPane(listLiveData);    
+	    
+	
+	
+	GridBagConstraints gbc_scrollPaneActiveSensors = new GridBagConstraints();
+	gbc_scrollPaneActiveSensors.gridheight = 2;
+	gbc_scrollPaneActiveSensors.gridx = 0;
+	gbc_scrollPaneActiveSensors.gridy = 0;
+	layeredPaneAchieveSensors.add(scrollPaneActiveSensors, gbc_scrollPaneActiveSensors);
 	tabbedPane.setForegroundAt(1, new Color(0, 0, 51));
 	layeredPaneLiveData.setBackground(SystemColor.inactiveCaption);
 	layeredPaneLiveData.setToolTipText("Live Sensors");
 
 	tabbedPane.addTab("Live Data", null, layeredPaneLiveData, null);
 	GridBagLayout gbl_layeredPaneLiveData = new GridBagLayout();
-	gbl_layeredPaneLiveData.columnWidths = new int[] { 390 };
+	gbl_layeredPaneLiveData.columnWidths = new int[] {480};
 	gbl_layeredPaneLiveData.rowHeights = new int[] { 275 };
 	gbl_layeredPaneLiveData.columnWeights = new double[] { 1.0 };
 	gbl_layeredPaneLiveData.rowWeights = new double[] { 1.0 };
@@ -409,5 +453,4 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 	// TODO Auto-generated method stub
 
     }
-
 }
