@@ -270,18 +270,40 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 	gbc_btnWebsite.gridx = 0;
 	gbc_btnWebsite.gridy = 2;
 	btnWebsite.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) {
+	    public void actionPerformed(ActionEvent arg0) {
 
-				try {
-					Process p = Runtime.getRuntime().exec("C:\\Program Files\\Internet Explorer\\iexplore.exe \"http://www.google.com\"");
-					Thread.sleep(5000);
-					p.destroy();
-					System.out.println("Return value was " + p.waitFor());
-				} catch (Exception e) {
-				    
-				}
-		    
+		// check if java.awt.Desktop is available on the current
+		// platform
+		java.awt.Desktop.isDesktopSupported();
+
+		System.out.println(java.awt.Desktop.isDesktopSupported());
+
+		// check the current platform and security policy will let you
+		// browse to a url
+		Desktop desktop = java.awt.Desktop.getDesktop();
+
+		// check if desktop is supported and  browser .
+		String osName = System.getProperty("os.name");
+		System.out.println(osName);
+		String url = "http://www.google.com";
+		if (desktop.isDesktopSupported() == true && desktop.isSupported(Desktop.Action.BROWSE) == true){
+		try {
+		    if (osName.startsWith("Windows")) {
+			Runtime.getRuntime().exec(
+				"rundll32 url.dll,FileProtocolHandler " + url);
+		    }
+
+		} catch (Exception e) {
+		    JOptionPane.showMessageDialog(
+			    null,
+			    "Error in opening browser" + ":\n"
+				    + e.getLocalizedMessage());
 		}
+		
+	    }
+
+	    }
+
 	});
 	// set Font and color for the Web button
 	btnWebsite.setFont(new Font("Tahoma", Font.BOLD, 17));
@@ -313,7 +335,7 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 
 	// add data to the header of the table
 	Object headers[] = { "ID", "Name", "Last reading", "Time stamp" };
- 
+
 	// add actual data to the table
 	Object[][] data = {
 		{ "Mary", "Campione", "Snowboarding", new Integer(5) },
@@ -333,8 +355,7 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
 		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
 		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Philip", "Milne", "Pool", new Integer(10) } 
-		};
+		{ "Philip", "Milne", "Pool", new Integer(10) } };
 
 	JTable tableLiveData = new JTable(data, headers);
 	tableLiveData.setEnabled(false);
