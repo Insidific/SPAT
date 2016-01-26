@@ -275,7 +275,9 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 					Thread.sleep(5000);
 					p.destroy();
 					System.out.println("Return value was " + p.waitFor());
-				} catch (Exception e) {}
+				} catch (Exception e) {
+				    
+				}
 		}
 	});
 	// set Font and color for the Web button
