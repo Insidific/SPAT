@@ -88,7 +88,7 @@ public class Sensored
 			currentDataSession.stop();
 			Session session = getDatabaseSession();
 			session.beginTransaction();
-			session.saveOrUpdate(currentDataSession);
+			session.update(currentDataSession);
 			session.getTransaction().commit();
 			doneWithDatabaseSession();
 			currentDataSession = null;

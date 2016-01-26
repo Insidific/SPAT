@@ -59,10 +59,10 @@
       <property name="start" column="start" type="org.hibernate.type.OffsetDateTimeType"/>
       <property name="stop" column="stop" type="org.hibernate.type.OffsetDateTimeType"/>
 	  
-	  <set name="datas" cascade="all">
+	  <!-- <set name="datas">
          <key column="session_id"/>
          <one-to-many class="Data"/>
-      </set>
+      </set> -->
 	  
    </class>
    

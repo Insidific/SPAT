@@ -53,6 +53,8 @@ import java.awt.BorderLayout;
 
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
+import javax.swing.JTable;
+import javax.swing.JScrollBar;
 
 public class UIApp extends JFrame implements SerialPortEventListener  {
 	// add member variable JSplit split the window to 2 parts
@@ -75,6 +77,8 @@ public class UIApp extends JFrame implements SerialPortEventListener  {
 	private final JScrollPane rightScrollPane = new JScrollPane();
 	private final JList rightJlist = new JList();
 	private SettingDialog myDialog;
+	private final JScrollBar scrollBarLiveData = new JScrollBar();
+	private final JTable tableLiveData = new JTable();
 	
 	public UIApp(){
 	    // set windows not resizable
@@ -202,6 +206,7 @@ public class UIApp extends JFrame implements SerialPortEventListener  {
 			    System.out.println("User selected port: " + selected);
 			    if (selected != null)
 				Sensored.getSerialManager().setPort(selected);
+			    comboBoxCOMPortMain.setForeground(new Color(255, 0, 0));
 			}
 		});
 		
@@ -224,6 +229,7 @@ public class UIApp extends JFrame implements SerialPortEventListener  {
 			    {
 				comboBoxCOMPortMain.addItem(port);
 			    }
+			    comboBoxCOMPortMain.setForeground(new Color(255, 0, 0));
 	    		}
 	    	});
 		
@@ -235,7 +241,7 @@ public class UIApp extends JFrame implements SerialPortEventListener  {
 		// set Font and color for the Start button
 		btnStart.setFont(new Font("Tahoma", Font.BOLD, 17));
 		panel.add(btnStart, gbc_btnStart);
-		btnStart.setBackground(new Color(0, 204, 255));
+		btnStart.setBackground(new Color(135, 206, 235));
 		btnStart.setForeground(new Color(0, 153, 0));
 		
 		btnStart.addActionListener(new ActionListener(){
@@ -262,15 +268,35 @@ public class UIApp extends JFrame implements SerialPortEventListener  {
 		// set Font and color for the Web button
 		btnWebsite.setFont(new Font("Tahoma", Font.BOLD, 17));
 		panel.add(btnWebsite, gbc_btnWebsite);
-		btnWebsite.setBackground(new Color(0, 204, 255));
+		btnWebsite.setBackground(new Color(135, 206, 235));
 		btnWebsite.setForeground(new Color(0, 128, 128));
+		layeredPaneAchieveSensors.setBackground(SystemColor.inactiveCaption);
 		layeredPaneAchieveSensors.setToolTipText("Achive Sensors");
 		
 		tabbedPane.addTab("Achieve Sensors", null, layeredPaneAchieveSensors, null);
 		tabbedPane.setForegroundAt(1, new Color(0, 0, 51));
+		layeredPaneLiveData.setBackground(SystemColor.inactiveCaption);
 		layeredPaneLiveData.setToolTipText("Live Sensors");
 		
 		tabbedPane.addTab("Live Data", null, layeredPaneLiveData, null);
+		GridBagLayout gbl_layeredPaneLiveData = new GridBagLayout();
+		gbl_layeredPaneLiveData.columnWidths = new int[] {390};
+		gbl_layeredPaneLiveData.rowHeights = new int[] {275};
+		gbl_layeredPaneLiveData.columnWeights = new double[]{1.0, 0.0};
+		gbl_layeredPaneLiveData.rowWeights = new double[]{1.0};
+		layeredPaneLiveData.setLayout(gbl_layeredPaneLiveData);
+		
+		GridBagConstraints gbc_tableLiveData = new GridBagConstraints();
+		gbc_tableLiveData.insets = new Insets(0, 0, 0, 5);
+		gbc_tableLiveData.fill = GridBagConstraints.BOTH;
+		gbc_tableLiveData.gridx = 0;
+		gbc_tableLiveData.gridy = 0;
+		layeredPaneLiveData.add(tableLiveData, gbc_tableLiveData);
+		
+		GridBagConstraints gbc_scrollBarLiveData = new GridBagConstraints();
+		gbc_scrollBarLiveData.gridx = 1;
+		gbc_scrollBarLiveData.gridy = 0;
+		layeredPaneLiveData.add(scrollBarLiveData, gbc_scrollBarLiveData);
 		tabbedPane.setForegroundAt(2, new Color(0, 0, 51));
 	}
 	
