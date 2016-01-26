@@ -30,10 +30,9 @@ public class SerialManager implements SerialPortEventListener {
 		return ret;
 	}
 	
-	public SerialManager()
-        {
-	    
-        }
+	public SerialManager() {
+    
+	}
 
 	public void init()
 	{

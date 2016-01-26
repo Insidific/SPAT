@@ -64,7 +64,7 @@ public class Sensored
 	{
 		if (currentDataSession == null)
 		{
-		    	System.out.println("Starting data session.");
+		    System.out.println("Starting data session.");
 			currentDataSession = new TheSession();
 			currentDataSession.start();
 			Session session = getDatabaseSession();

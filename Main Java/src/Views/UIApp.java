@@ -43,6 +43,7 @@ import javax.swing.JComboBox;
 import java.awt.SystemColor;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JTabbedPane;
 import javax.swing.JLayeredPane;
 
@@ -222,7 +223,7 @@ public class UIApp extends JFrame implements SerialPortEventListener  {
 			    comboBoxCOMPortMain.removeAllItems();
 			    for(String port: SerialManager.listPorts())
 			    {
-				comboBoxCOMPortMain.addItem(port);
+			    	comboBoxCOMPortMain.addItem(port);
 			    }
 	    		}
 	    	});
