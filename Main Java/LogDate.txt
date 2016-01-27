@@ -1,0 +1,59 @@
+7,HFT,heat_flux1,88.07,17.49,15.73
+10,Temp,Int Temp,16.58,19.30
+11,Temp,Ext Temp,17.72,25.44
+7,HFT,heat_flux1,78.78,24.23,22.09
+10,Temp,Int Temp,29.40,21.65
+11,Temp,Ext Temp,19.92,20.42
+7,HFT,heat_flux1,88.07,17.49,15.73
+10,Temp,Int Temp,16.58,19.30
+11,Temp,Ext Temp,17.72,25.44
+7,HFT,heat_flux1,78.78,24.23,22.09
+10,Temp,Int Temp,29.40,21.65
+7,HFT,heat_flux1,88.07,17.49,15.73
+10,Temp,Int Temp,16.58,19.30
+11,Temp,Ext Temp,17.72,25.44
+7,HFT,heat_flux1,78.78,24.23,22.09
+10,Temp,Int Temp,29.40,21.65
+11,Temp,Ext Temp,19.92,20.42
+7,HFT,heat_flux1,79.87,20.03,18.27
+10,Temp,Int Temp,17.29,18.40
+11,Temp,Ext Temp,16.12,18.03
+7,HFT,heat_flux1,71.69,22.09,16.57
+10,Temp,Int Temp,25.60,24.33
+11,Temp,Ext Temp,15.99,27.78
+7,HFT,heat_flux1,98.16,18.35,15.97
+10,Temp,Int Temp,18.26,20.12
+11,Temp,Ext Temp,27.67,28.10
+7,HFT,heat_flux1,76.33,24.79,16.49
+10,Temp,Int Temp,20.79,18.21
+11,Temp,Ext Temp,24.67,26.72
+7,HFT,heat_flux1,83.93,18.36,19.85
+10,Temp,Int Temp,17.45,22.28
+11,Temp,Ext Temp,15.91,26.94
+7,HFT,heat_flux1,83.57,15.01,16.53
+10,Temp,Int Temp,17.08,29.44
+11,Temp,Ext Temp,26.68,29.90
+7,HFT,heat_flux1,91.24,16.96,20.30
+7,HFT,heat_flux1,88.07,17.49,15.73
+10,Temp,Int Temp,16.58,19.30
+11,Temp,Ext Temp,17.72,25.44
+7,HFT,heat_flux1,78.78,24.23,22.09
+10,Temp,Int Temp,29.40,21.65
+11,Temp,Ext Temp,19.92,20.42
+7,HFT,heat_flux1,79.87,20.03,18.27
+10,Temp,Int Temp,17.29,18.40
+11,Temp,Ext Temp,16.12,18.03
+7,HFT,heat_flux1,71.69,22.09,16.57
+10,Temp,Int Temp,25.60,24.33
+7,HFT,heat_flux1,88.07,17.49,15.73
+10,Temp,Int Temp,16.58,19.30
+11,Temp,Ext Temp,17.72,25.44
+7,HFT,heat_flux1,78.78,24.23,22.09
+10,Temp,Int Temp,29.40,21.65
+11,Temp,Ext Temp,19.92,20.42
+7,HFT,heat_flux1,79.87,20.03,18.27
+10,Temp,Int Temp,17.29,18.40
+11,Temp,Ext Temp,16.12,18.03
+7,HFT,heat_flux1,71.69,22.09,16.57
+10,Temp,Int Temp,25.60,24.33
+11,Temp,Ext Temp,15.99,27.78

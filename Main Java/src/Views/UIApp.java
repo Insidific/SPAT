@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Vector;
 
@@ -26,6 +27,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.JScrollPane;
 
@@ -87,11 +89,12 @@ public class UIApp extends JFrame
     private final JLayeredPane layeredPaneAchieveSensors = new JLayeredPane();
     private final JLayeredPane layeredPaneLiveData = new JLayeredPane();
     private final JScrollPane rightScrollPane = new JScrollPane();
+    private final JTable tableLiveData;
     
-    private final DefaultListModel defaultListModel = new DefaultListModel();    
+    private final DefaultListModel defaultListModel = new DefaultListModel();
+    private final DefaultTableModel defaultTableModel = new DefaultTableModel();
     
     private SettingDialog myDialog;
-    private final JTable tableLiveData = new JTable();
 
     public UIApp() {
 	
@@ -389,31 +392,33 @@ public class UIApp extends JFrame
 	gbc_tableLiveData.gridx = 0;
 	gbc_tableLiveData.gridy = 0;
 
-	// add data to the header of the table
-	Object headers[] = { "ID", "Name", "Last reading", "Time stamp" };
+//	// add data to the header of the table
+//	Object headers[] = { "ID", "Name", "Last reading", "Time stamp" };
+//
+//	// add actual data to the table
+//	Object[][] data = {
+//		{ "Mary", "Campione", "Snowboarding", new Integer(5) },
+//		{ "Alison", "Huml", "Rowing", new Integer(3) },
+//		{ "Kathy", "Walrath", "Knitting", new Integer(2) },
+//		{ "Sharon", "Zakhour", "Speed reading", 20 },
+//		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+//		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+//		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+//		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+//		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+//		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+//		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+//		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+//		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+//		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+//		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+//		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+//		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
+//		{ "Philip", "Milne", "Pool", new Integer(10) } };
 
-	// add actual data to the table
-	Object[][] data = {
-		{ "Mary", "Campione", "Snowboarding", new Integer(5) },
-		{ "Alison", "Huml", "Rowing", new Integer(3) },
-		{ "Kathy", "Walrath", "Knitting", new Integer(2) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Sharon", "Zakhour", "Speed reading", new Integer(20) },
-		{ "Philip", "Milne", "Pool", new Integer(10) } };
-
-	JTable tableLiveData = new JTable(data, headers);
+	tableLiveData = new JTable(defaultTableModel);
+	// set default column names
+	defaultTableModel.setColumnIdentifiers(new Object[] { "ID", "Name", "Last reading", "Time stamp" });
 	tableLiveData.setEnabled(false);
 	tableLiveData.setForeground(new Color(0, 102, 153));
 	tableLiveData.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -462,12 +467,18 @@ public class UIApp extends JFrame
     // }
 
     public void newRawData(String string){
+	// add data to the list in Start Tab
 	defaultListModel.addElement(string);
     }
     
 
     
     public void newParsedData(Data data){
-
+	// add data to the table in Live Data Tab
+	int id = data.getSensor().getSensorID();
+	String name = data.getSensor().getName();
+	double lastReading = data.getData();
+	String timeStamp = data.getTimeStamp().format(DateTimeFormatter.ofPattern("dd/MM/yy HH:mm:ss"));
+	defaultTableModel.addRow(new Object[]{id, name, lastReading, timeStamp});
     }
 }
