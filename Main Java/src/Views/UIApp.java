@@ -51,6 +51,7 @@ import javax.swing.JLayeredPane;
 
 import Controller.Sensored;
 import Controller.SerialManager;
+import Model.Data;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
@@ -454,7 +455,11 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 
     }
     
-    public void newDataReceived(String string){
+    public void newRawData(String string){
 	System.out.println(string);
+    }
+    
+    public void newParsedData(Data data){
+	System.out.println(data);
     }
 }
