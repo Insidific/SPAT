@@ -8,7 +8,7 @@ public class TheSession {
 	private int sessionID;
 	private String name;
 	private OffsetDateTime start, stop;	
-	private Set datas;
+	//private Set datas;
 	
 	public TheSession() {
 		
@@ -46,13 +46,13 @@ public class TheSession {
 		this.stop = stop;
 	}
 
-	public Set getDatas() {
-		return datas;
-	}
-
-	public void setDatas(Set datas) {
-		this.datas = datas;
-	}	
+//	public Set getDatas() {
+//		return datas;
+//	}
+//
+//	public void setDatas(Set datas) {
+//		this.datas = datas;
+//	}	
 	
 	public void start() throws IllegalStateException
 	{

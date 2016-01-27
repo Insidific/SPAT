@@ -215,6 +215,7 @@ public class SettingDialog extends JDialog implements SerialPortEventListener {
 	JPanel leftPanelTop = new JPanel();
 	leftPanelTop.setBackground(SystemColor.text);
 	GridBagConstraints gbc_leftPanelTop = new GridBagConstraints();
+	gbc_leftPanelTop.fill = GridBagConstraints.BOTH;
 	gbc_leftPanelTop.insets = new Insets(0, 0, 2, 0);
 	gbc_leftPanelTop.gridx = 0;
 	gbc_leftPanelTop.gridy = 0;
@@ -251,7 +252,7 @@ public class SettingDialog extends JDialog implements SerialPortEventListener {
 		});
 		btnAcceptAll.setFont(new Font("Tahoma", Font.BOLD, 11));
 		
-			btnAcceptAll.setBackground(new Color(0, 204, 255));
+			btnAcceptAll.setBackground(new Color(135, 206, 235));
 			btnAcceptAll.setForeground(new Color(0, 153, 0));
 
 	JPanel LeftPanel = new JPanel();
@@ -467,7 +468,7 @@ public class SettingDialog extends JDialog implements SerialPortEventListener {
 	});
 	btnCheckArduinoConnection.setForeground(new Color(0, 153, 0));
 	btnCheckArduinoConnection.setFont(new Font("Tahoma", Font.PLAIN, 9));
-	btnCheckArduinoConnection.setBackground(new Color(0, 204, 255));
+	btnCheckArduinoConnection.setBackground(new Color(135, 206, 235));
 	GridBagConstraints gbc_btnCheckArduinoConnection = new GridBagConstraints();
 	gbc_btnCheckArduinoConnection.insets = new Insets(0, 0, 5, 0);
 	gbc_btnCheckArduinoConnection.gridx = 1;
@@ -645,7 +646,7 @@ public class SettingDialog extends JDialog implements SerialPortEventListener {
 	btnCheckDatabaseConnection = new JButton("Check Database Connection");
 	btnCheckDatabaseConnection.setForeground(new Color(0, 153, 0));
 	btnCheckDatabaseConnection.setFont(new Font("Tahoma", Font.PLAIN, 9));
-	btnCheckDatabaseConnection.setBackground(new Color(0, 204, 255));
+	btnCheckDatabaseConnection.setBackground(new Color(135, 206, 235));
 	GridBagConstraints gbc_btnCheckDatabaseConnection = new GridBagConstraints();
 	gbc_btnCheckDatabaseConnection.insets = new Insets(0, 0, 5, 0);
 	gbc_btnCheckDatabaseConnection.gridx = 1;
