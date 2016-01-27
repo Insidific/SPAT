@@ -149,10 +149,18 @@ public class Sensored
 			throw new IllegalStateException("No current session!");
 	}
 
+	/**
+	 * This method returns the current instance of SerialManager. It is primarily intended to be used by the UI.
+	 * @return the current SerialManager in use.
+	 */
 	public static SerialManager getSerialManager() {
 		return serialManager;
 	}
 	
+	/**
+	 * This method should be called - by SerialManager - when a new data line has been received.
+	 * @param dataline the data line that was 
+	 */
 	public static void newDataReceived(String dataline)
 	{
 		Set<Data> datas = Data.parseData(dataline);
