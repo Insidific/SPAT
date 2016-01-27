@@ -1,6 +1,7 @@
 package Controller;
 
 import java.io.File;
+import java.util.Set;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -11,6 +12,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import Model.Data;
 import Model.TheSession;
 import Views.UIApp;
 
@@ -22,7 +24,12 @@ public class Sensored
 	private static SessionFactory sessionFactory;
 	private static SerialManager serialManager;
 	private static UIApp ui;
+	private static Logging log;
 	
+	/**
+	 * This is the program start point.
+	 * @param args the command line arguments.
+	 */
 	public static void main(String[] args)
 	{
 	    
@@ -30,9 +37,12 @@ public class Sensored
 		serialManager = new SerialManager();
 		ui = new UIApp();
 		ui.setVisible(true);
-				
+		log = new Logging();
 	}
 
+	/**
+	 * This method is used to establish a database connection.
+	 */
 	private static void setupDB()
 	{
 		System.out.println("Setting up database connection...");
@@ -46,6 +56,11 @@ public class Sensored
 	    System.out.println("Done!");
 	}
 	
+	/**
+	 * This method returns a database session; this is used for all interactions with the database.
+	 * Please remember to call doneWithDatabaseSession() after you are done with the Session object returned.
+	 * @return a database session, either new or re-used.
+	 */
 	public static Session getDatabaseSession()
 	{
 		databaseSessionUsers++;
@@ -54,6 +69,10 @@ public class Sensored
 		return currentDatabaseSession;
 	}
 	
+	/**
+	 * This method is used to possibly dispose of the database session, depending on need. 
+	 * It should be called once at some point after every call to getDatabaseSession().
+	 */
 	public static void doneWithDatabaseSession()
 	{
 		databaseSessionUsers--;
@@ -64,6 +83,9 @@ public class Sensored
 		}
 	}
 	
+	/**
+	 * This method is used to start a new data session (TheSession).
+	 */
 	public static void startDataSession()
 	{
 		if (currentDataSession == null)
@@ -84,6 +106,9 @@ public class Sensored
 		}
 	}
 	
+	/**
+	 * This method is used to stop the current data session (TheSession)
+	 */
 	public static void stopDataSession()
 	{
 		if (currentDataSession != null)
@@ -104,12 +129,19 @@ public class Sensored
 		}
 	}
 	
+	/**
+	 * This method is used to check if there is a data session in progress.
+	 * @return true if there is currently a data session, or false if not.
+	 */
 	public static boolean isDataSessionRunning()
 	{
 	    return currentDataSession != null;
 	}
 	
-
+	/**
+	 * Retreives and returns the currently running data session (TheSession), or throws an 
+	 * @return
+	 */
 	public static TheSession getCurrentDataSession() {
 		if(currentDataSession != null)
 			return currentDataSession;
@@ -121,7 +153,16 @@ public class Sensored
 		return serialManager;
 	}
 	
-	
+	public static void newDataReceived(String dataline)
+	{
+		Set<Data> datas = Data.parseData(dataline);
+		ui.newRawData(dataline);
+		log.newRawData(dataline);
+		for (Data data : datas)
+		{
+			ui.newParsedData(data);
+		}
+	}
 	
 	
 }

@@ -2,7 +2,9 @@ package Model;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.Session;
 
@@ -39,11 +41,12 @@ public class Data {
 	 * Parses a data line from the Arduino into a set of Data objects.
 	 * @param dataline the data line to parse.
 	 */
-	public static void parseData(String dataline)
+	public static Set<Data> parseData(String dataline)
 	{
+		Set<Data> ret = new HashSet<>();
 		try
 		{
-			List<Data> ret = new ArrayList<>();
+			
 			String[] split = dataline.split(",");
 			int nodeID = Integer.parseInt(split[0]);
 			String sensorTypeName = split[1];
@@ -67,6 +70,7 @@ public class Data {
 				surfaceTemp = Double.parseDouble(split[5]);
 				double heatFlux = Double.parseDouble(split[3]);
 				Data heatFluxData = new Data(heatFlux, sensor, "Heatflux");
+				ret.add(heatFluxData);
 				session.save(heatFluxData);
 			}
 			else if (sensorTypeName.equals("Temp"))
@@ -80,6 +84,8 @@ public class Data {
 			}
 			Data airTempData = new Data(airTemp, sensor, "Air");
 			Data surfTempData = new Data(surfaceTemp, sensor, "Surface");
+			ret.add(surfTempData);
+			ret.add(airTempData);
 			session.save(airTempData);
 			session.save(surfTempData);
 			session.saveOrUpdate(sensor);
@@ -96,6 +102,7 @@ public class Data {
 		{
 			System.err.println("Data validation failed; " + ex.getMessage());
 		}
+		return ret;
 	}
 
 	public OffsetDateTime getTimeStamp() {
@@ -144,6 +151,13 @@ public class Data {
 
 	public void setDataType(DataType dataType) {
 		this.dataType = dataType;
+	}
+
+	@Override
+	public String toString() {
+		return "Data [id=" + id + ", timeStamp=" + timeStamp + ", data=" + data
+				+ ", sensor=" + sensor + ", session=" + session + ", dataType="
+				+ dataType + "]";
 	}
 	
 	
