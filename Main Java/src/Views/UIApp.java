@@ -21,9 +21,6 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-
-import Model.Data;
-
 import javax.swing.JScrollPane;
 
 import java.awt.event.ActionListener;
@@ -253,14 +250,6 @@ public class UIApp extends JFrame {
 	    }
 	});
 
-    }
-    
-    public void newRawData(String string){
-      	System.out.println(string);
-    }
-         
-    public void newParsedData(Data data){
-     	System.out.println(data);
     }
 
 }
