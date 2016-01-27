@@ -453,4 +453,8 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 	// TODO Auto-generated method stub
 
     }
+    
+    public void newDataReceived(String string){
+	System.out.println(string);
+    }
 }
