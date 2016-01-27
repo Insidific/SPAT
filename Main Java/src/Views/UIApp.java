@@ -10,6 +10,7 @@ import java.awt.Point;
 import java.util.Arrays;
 import java.util.Vector;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -66,7 +67,8 @@ import javax.swing.JScrollBar;
 import javax.swing.ListSelectionModel;
 import javax.swing.AbstractListModel;
 
-public class UIApp extends JFrame implements SerialPortEventListener {
+public class UIApp extends JFrame
+{
     // add member variable JSplit split the window to 2 parts
     JSplitPane contentPane;
     private final JPanel panel = new JPanel();
@@ -85,11 +87,18 @@ public class UIApp extends JFrame implements SerialPortEventListener {
     private final JLayeredPane layeredPaneAchieveSensors = new JLayeredPane();
     private final JLayeredPane layeredPaneLiveData = new JLayeredPane();
     private final JScrollPane rightScrollPane = new JScrollPane();
-    private final JList rightJlist = new JList();
+    
+    private final DefaultListModel defaultListModel = new DefaultListModel();    
+    
     private SettingDialog myDialog;
     private final JTable tableLiveData = new JTable();
 
     public UIApp() {
+	
+	  JList rightJlistStartTab = new JList();
+	  rightJlistStartTab.setModel(defaultListModel);
+	  
+	  
 	// set windows not resizable
 	setResizable(false);
 	setPreferredSize(new Dimension(500, 350));
@@ -181,10 +190,12 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 	gbc_rightScrollPane.gridx = 0;
 	gbc_rightScrollPane.gridy = 0;
 	rightPanel.add(rightScrollPane, gbc_rightScrollPane);
-	rightJlist.setFont(new Font("Tahoma", Font.PLAIN, 12));
-	rightJlist.setBackground(SystemColor.activeCaption);
-
-	rightScrollPane.setViewportView(rightJlist);
+	rightJlistStartTab.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	rightJlistStartTab.setFont(new Font("Tahoma", Font.PLAIN, 12));
+	rightJlistStartTab.setBackground(SystemColor.activeCaption);
+//	rightJlistStartTab.setModel(defaultListModel);
+	rightScrollPane.setViewportView(rightJlistStartTab);
+	
 	GridBagLayout gbl_leftPanel = new GridBagLayout();
 	gbl_leftPanel.columnWidths = new int[] { 150 };
 	gbl_leftPanel.rowHeights = new int[] { 252 };
@@ -423,6 +434,7 @@ public class UIApp extends JFrame implements SerialPortEventListener {
 	JScrollPane scrollPane = new JScrollPane(tableLiveData);
 	scrollPane.setVisible(true);
 	layeredPaneLiveData.add(scrollPane);
+	
 
     }
 
@@ -449,17 +461,13 @@ public class UIApp extends JFrame implements SerialPortEventListener {
     //
     // }
 
-    @Override
-    public void serialEvent(SerialPortEvent serialPortEvent) {
-	// TODO Auto-generated method stub
-
+    public void newRawData(String string){
+	defaultListModel.addElement(string);
     }
     
-    public void newRawData(String string){
-	System.out.println(string);
-    }
+
     
     public void newParsedData(Data data){
-	System.out.println(data);
+
     }
 }
