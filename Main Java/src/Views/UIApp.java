@@ -92,6 +92,7 @@ public class UIApp extends JFrame
     private final JTable tableLiveData;
     
     private final DefaultListModel defaultListModel = new DefaultListModel();
+    private final DefaultListModel defaultListModelActiveSensors = new DefaultListModel();
     private final DefaultTableModel defaultTableModel = new DefaultTableModel();
     
     private SettingDialog myDialog;
@@ -100,6 +101,9 @@ public class UIApp extends JFrame
 	
 	  JList rightJlistStartTab = new JList();
 	  rightJlistStartTab.setModel(defaultListModel);
+	  
+	    JList activeSensorsJlist = new JList();
+	    activeSensorsJlist.setModel(defaultListModelActiveSensors);
 	  
 	  
 	// set windows not resizable
@@ -346,30 +350,19 @@ public class UIApp extends JFrame
 	scrollPaneActiveSensors.setVisible(true);
 	scrollPaneActiveSensors.setSize(400, 300);
 	scrollPaneActiveSensors.setBackground(new Color(135, 206, 235));
-	    String categories[] = { "Household", "Office", "Extended Family",
-		        "Company (US)", "Company (World)", "Team", "Will",
-		        "Birthday Card List", "High School", "Country", "Continent",
-		        "Planet" };
-	    JList listLiveData = new JList(categories);
-	    listLiveData.setVisibleRowCount(11);
-	    listLiveData.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	    listLiveData.setEnabled(false);
-	    listLiveData.setModel(new AbstractListModel() {
-	    	String[] values = new String[] {};
-	    	public int getSize() {
-	    		return values.length;
-	    	}
-	    	public Object getElementAt(int index) {
-	    		return values[index];
-	    	}
-	    });
-	    listLiveData.setBackground(new Color(135, 206, 235));
-	    listLiveData.setSize(400, 400);
-	    scrollPaneActiveSensors = new JScrollPane(listLiveData);    
+
+
+	    activeSensorsJlist.setVisibleRowCount(11);
+	    activeSensorsJlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	    activeSensorsJlist.setEnabled(false);
+	    activeSensorsJlist.setBackground(SystemColor.activeCaption);
+	    activeSensorsJlist.setSize(400, 400);
+	    scrollPaneActiveSensors = new JScrollPane(activeSensorsJlist);    
 	    
 	
 	
 	GridBagConstraints gbc_scrollPaneActiveSensors = new GridBagConstraints();
+	gbc_scrollPaneActiveSensors.fill = GridBagConstraints.BOTH;
 	gbc_scrollPaneActiveSensors.gridheight = 2;
 	gbc_scrollPaneActiveSensors.gridx = 0;
 	gbc_scrollPaneActiveSensors.gridy = 0;
