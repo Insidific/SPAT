@@ -1,4 +1,3 @@
-
 package Views;
 
 import java.awt.Color;
@@ -51,7 +50,7 @@ public class UIApp extends JFrame {
 	// add member variable JSplit split the window to 2 parts
 	JSplitPane contentPane;
 	private final JPanel panel = new JPanel();
-	private final JComboBox comboBoxCOMPort = new JComboBox();
+	private final JComboBox comboBoxCOMPortMain = new JComboBox();
 	private final JButton btnStart = new JButton("Start");
 	private final JButton btnWebsite = new JButton("Website");
 	private final JMenuBar menuBar = new JMenuBar();
@@ -184,18 +183,20 @@ public class UIApp extends JFrame {
 		gbl_panel.rowWeights = new double[]{0.0, 0.0};
 		panel.setLayout(gbl_panel);
 		
-		GridBagConstraints gbc_comboBoxCOMPort = new GridBagConstraints();
-		gbc_comboBoxCOMPort.insets = new Insets(0, 0, 5, 0);
-		gbc_comboBoxCOMPort.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBoxCOMPort.gridx = 0;
-		gbc_comboBoxCOMPort.gridy = 0;
+		GridBagConstraints gbc_comboBoxCOMPortMain = new GridBagConstraints();
+		gbc_comboBoxCOMPortMain.insets = new Insets(0, 0, 5, 0);
+		gbc_comboBoxCOMPortMain.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBoxCOMPortMain.gridx = 0;
+		gbc_comboBoxCOMPortMain.gridy = 0;
 		
 		// set comboBox Font, color and add temporary data
-		comboBoxCOMPort.setFont(new Font("Tahoma", Font.BOLD, 14));
-		comboBoxCOMPort.setModel(new DefaultComboBoxModel(new String[] {"Select COM Port", "COM1", "COM2"}));
-		comboBoxCOMPort.setBackground(SystemColor.activeCaption);
-		comboBoxCOMPort.setForeground(new Color(255, 0, 0));
-		panel.add(comboBoxCOMPort, gbc_comboBoxCOMPort);
+		comboBoxCOMPortMain.setFont(new Font("Tahoma", Font.BOLD, 14));
+		comboBoxCOMPortMain.setBackground(SystemColor.activeCaption);
+		comboBoxCOMPortMain.setForeground(new Color(255, 0, 0));
+		panel.add(comboBoxCOMPortMain, gbc_comboBoxCOMPortMain);
+		comboBoxCOMPortMain.addItem("Select COM Port");
+		comboBoxCOMPortMain.addItem("COM1");
+		comboBoxCOMPortMain.addItem("COM2");
 		
 		GridBagConstraints gbc_btnStart = new GridBagConstraints();
 		gbc_btnStart.fill = GridBagConstraints.BOTH;

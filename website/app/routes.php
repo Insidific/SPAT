@@ -16,6 +16,7 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
+<<<<<<< HEAD
 Route::get('/sessions',array('uses' => 'HomeController@showSessions'));
 
 // Sensor routes
@@ -27,3 +28,10 @@ Route::post('/sensors/{id}/destroy',array('uses' => 'SensorsController@destroy')
 
 Route::get('/graphs',array('uses' => 'GraphController@index'));
 Route::get('/graphs/{day}',array('uses' => 'GraphController@show'));
+=======
+Route::get('/sessions',array('uses' => 'SessionsController@index'));
+Route::get('/sessions/{id}',array('uses' => 'SessionsController@show'));
+Route::get('/sessions/{id}/edit',array('uses' => 'SessionsController@edit'));
+Route::get('/sessions/{id}/update',array('uses' => 'SessionsController@update'));
+Route::get('/sessions/{id}/delete',array('uses' => 'SessionsController@destroy'));
+>>>>>>> origin/Website

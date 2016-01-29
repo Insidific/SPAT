@@ -7,8 +7,8 @@
     @foreach($sessions as $session)
         <?php $i++; ?>
                 <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" href="#collapse{{$i}}">{{$session["result"]->session_id}}</a>
+                    <h4 class="panel-title" Style="padding: 10px;">
+                        <div class="col-md-3"><a data-toggle="collapse" href="#collapse{{$i}}">{{$session["result"]->session_id}} </a></div><div class="col-md-6"></div><div class="col-md-3"><button type="button" class="btn btn-primary btn-sm">View</button> <button type="button" class="btn btn-primary btn-sm">Edit</button> <button type="button" class="btn btn-primary btn-sm">Deletesessions.blade.php</button></div>
                     </h4>
                 </div>
                 <div id="collapse{{$i}}" class="panel-collapse collapse">

@@ -1,8 +1,7 @@
+package Views;
 /**
  * Class that contains dialog where you set data.
  */
-
-package Views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,37 +16,34 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import javax.swing.event.ListSelectionListener;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
-
-
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.DefaultComboBoxModel;
+//import library.ReaderWriter;
+//import library.BookStorage;
 
 public class SettingDialog extends JDialog {
-	JTextField textFieldDBIP, textFieldUsername, textFieldDBPassword,
+	JTextField textFieldDBIP, textFieldUsername,
 	textFieldDBPort,textFieldDBName;
 	JLabel lblDBIP, lblDBPort,
 	lblUsername, lblPassword, lblDBName;
-	JComboBox selectTypeComboBox = new JComboBox();
+	JComboBox selectComPortComboBox = new JComboBox();
 	private JLabel lblPortSpeed;
 	private JTextField textFieldPortSpeed;
 	private JTextField textFieldPortDataBits;
@@ -55,7 +51,25 @@ public class SettingDialog extends JDialog {
 	private JLabel lblPortstopbits;
 	private JLabel lblPortParity;
 	private JTextField textFieldPortStopBits;
-	private JTextField txtParitynone;
+	private JTextField textFieldParitynone;
+	private JPasswordField passwordField;
+	private JMenuItem mntmOpen;
+	private JButton btnCheckArduinoConnection;
+	private JButton btnCheckDatabaseConnection;
+	private JLabel lblStatus;
+	private JLabel lblStatus_1;
+	private JTextField textFieldArduinoStatus;
+	private JTextField textFieldDBStatus;
+	
+	private String stringPort;
+	private int intFieldPortSpeed;
+    	  private int intFieldPortDataBits ;
+    	  private int intFieldPortStopBits ;
+    	  private String stringTextFieldParitynone;
+    	  private String  stringTextFieldDBIP ;
+    	  private String stringTextFieldUsername ;
+    	  private String stringpasswordField ;
+    	  private String stringTextFieldDBName  ;
 	
 
 	/**
@@ -67,8 +81,8 @@ public class SettingDialog extends JDialog {
 			    "About Settings App",
 			    JOptionPane.INFORMATION_MESSAGE);
 		}
-	
 
+	  
 
 	/**
 	 * @param owner is the Main Window
@@ -80,6 +94,18 @@ public SettingDialog(JFrame owner) {
 	setPreferredSize(new Dimension(500, 350));
 	setSize(500, 350);
 	setLocationRelativeTo(null);
+	
+	stringPort = selectComPortComboBox.getSelectedItem().toString();
+	  intFieldPortSpeed = Integer.parseInt(textFieldPortSpeed.getText());
+	  intFieldPortDataBits = Integer.parseInt(textFieldPortDataBits.getText());
+	  intFieldPortStopBits = Integer.parseInt(textFieldPortStopBits.getText());
+	  stringTextFieldParitynone = textFieldParitynone.getText();
+	   stringTextFieldDBIP =   textFieldDBIP.getText();
+	  stringTextFieldUsername =  textFieldUsername.getText();
+	  stringpasswordField = passwordField.getText();
+	  stringTextFieldDBName  = textFieldDBName.getText();
+	
+
 
 			lblDBIP = new JLabel("DB IP");
 			lblDBIP.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -144,22 +170,6 @@ public SettingDialog(JFrame owner) {
 					});
 					textFieldUsername.setBackground(new Color(255, 255, 153));
 					textFieldUsername.setFont(new Font("Arial", Font.PLAIN, 12));
-
-					// isbn
-					textFieldDBPassword = new JTextField();
-					textFieldDBPassword.addFocusListener(new FocusAdapter() {
-						@Override
-						public void focusGained(FocusEvent e) {
-							textFieldDBPassword.setBackground(Color.ORANGE);
-						}
-
-						@Override
-						public void focusLost(FocusEvent e) {
-							textFieldDBPassword.setBackground(new Color(255, 255, 153));
-						}
-					});
-					textFieldDBPassword.setBackground(new Color(255, 255, 153));
-					textFieldDBPassword.setFont(new Font("Arial", Font.PLAIN, 12));
 					
 					// bookType
 					
@@ -195,7 +205,7 @@ public SettingDialog(JFrame owner) {
 					layeredPaneSettings.setLayout(gbl_layeredPaneSettings);
 					
 					JPanel leftPanelTop = new JPanel();
-					leftPanelTop.setBackground(Color.WHITE);
+					leftPanelTop.setBackground(SystemColor.text);
 					GridBagConstraints gbc_leftPanelTop = new GridBagConstraints();
 					gbc_leftPanelTop.insets = new Insets(0, 0, 2, 0);
 					gbc_leftPanelTop.gridx = 0;
@@ -205,9 +215,10 @@ public SettingDialog(JFrame owner) {
 					
 					JPanel rightPanelTop = new JPanel();
 					FlowLayout flowLayout = (FlowLayout) rightPanelTop.getLayout();
+					flowLayout.setAlignment(FlowLayout.LEFT);
 					flowLayout.setVgap(3);
 					flowLayout.setHgap(3);
-					rightPanelTop.setBackground(Color.WHITE);
+					rightPanelTop.setBackground(SystemColor.text);
 					GridBagConstraints gbc_rightPanelTop = new GridBagConstraints();
 					gbc_rightPanelTop.insets = new Insets(0, 0, 2, 0);
 					gbc_rightPanelTop.fill = GridBagConstraints.BOTH;
@@ -216,23 +227,26 @@ public SettingDialog(JFrame owner) {
 					layeredPaneSettings.add(rightPanelTop, gbc_rightPanelTop);
 					
 					// add button that add books to the library
-					JButton btnAdd = new JButton("Accept");
-					btnAdd.setFont(new Font("Tahoma", Font.BOLD, 11));
-					rightPanelTop.add(btnAdd);
+					JButton btnAcceptAll = new JButton("Accept All");
+					btnAcceptAll.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+						    saveToFile(selectComPortComboBox.getSelectedItem().toString(),
+							    textFieldPortSpeed.getText(),
+							    textFieldPortDataBits.getText(),
+							    textFieldPortStopBits.getText(),
+							    textFieldParitynone.getText(),
+							    textFieldDBIP.getText(),
+							    textFieldUsername.getText(),
+							    passwordField.getText(),
+							    textFieldDBName.getText() );
+						    
+						}
+					});
+					btnAcceptAll.setFont(new Font("Tahoma", Font.BOLD, 11));
+					rightPanelTop.add(btnAcceptAll);
 
-					btnAdd.setBackground(new Color(0, 204, 255));
-					btnAdd.setForeground(new Color(0, 153, 0));
-					selectTypeComboBox.setFont(new Font("Tahoma", Font.BOLD, 12));
-					selectTypeComboBox.setModel(new DefaultComboBoxModel(new String[] {"Select COM Port", "COM1", "COM2"}));
-					rightPanelTop.add(selectTypeComboBox);
-					
-					
-					selectTypeComboBox.setForeground(new Color(0, 0, 153));
-					selectTypeComboBox.setBackground(SystemColor.activeCaption);
-					selectTypeComboBox.addItem("Select Type of Book");
-					selectTypeComboBox.addItem("Computing");
-					selectTypeComboBox.addItem("Featured History");
-					selectTypeComboBox.addItem("Fiction");
+					btnAcceptAll.setBackground(new Color(0, 204, 255));
+					btnAcceptAll.setForeground(new Color(0, 153, 0));
 					
 					JPanel LeftPanel = new JPanel();
 					LeftPanel.setBackground(SystemColor.activeCaption);
@@ -255,7 +269,7 @@ public SettingDialog(JFrame owner) {
 					gbc_lblPortSpeed.anchor = GridBagConstraints.EAST;
 					gbc_lblPortSpeed.insets = new Insets(0, 0, 5, 5);
 					gbc_lblPortSpeed.gridx = 0;
-					gbc_lblPortSpeed.gridy = 1;
+					gbc_lblPortSpeed.gridy = 2;
 					LeftPanel.add(lblPortSpeed, gbc_lblPortSpeed);
 					
 					textFieldPortSpeed = new JTextField();
@@ -267,7 +281,7 @@ public SettingDialog(JFrame owner) {
 					gbc_textFieldPortSpeed.fill = GridBagConstraints.HORIZONTAL;
 					gbc_textFieldPortSpeed.insets = new Insets(0, 0, 5, 0);
 					gbc_textFieldPortSpeed.gridx = 1;
-					gbc_textFieldPortSpeed.gridy = 1;
+					gbc_textFieldPortSpeed.gridy = 2;
 					LeftPanel.add(textFieldPortSpeed, gbc_textFieldPortSpeed);
 					
 					lblPortdatabits = new JLabel("Port Data Bits");
@@ -276,10 +290,20 @@ public SettingDialog(JFrame owner) {
 					gbc_lblPortdatabits.insets = new Insets(0, 0, 5, 5);
 					gbc_lblPortdatabits.anchor = GridBagConstraints.EAST;
 					gbc_lblPortdatabits.gridx = 0;
-					gbc_lblPortdatabits.gridy = 2;
+					gbc_lblPortdatabits.gridy = 3;
 					LeftPanel.add(lblPortdatabits, gbc_lblPortdatabits);
 					
 					textFieldPortDataBits = new JTextField();
+					textFieldPortDataBits.addFocusListener(new FocusAdapter() {
+						@Override
+						public void focusGained(FocusEvent e) {
+						    textFieldPortDataBits.setBackground(Color.ORANGE);
+						}
+						@Override
+						public void focusLost(FocusEvent e) {
+						    textFieldPortDataBits.setBackground(new Color(255, 255, 153));
+						}
+					});
 					textFieldPortDataBits.setText("8");
 					textFieldPortDataBits.setFont(new Font("Arial", Font.PLAIN, 12));
 					textFieldPortDataBits.setColumns(10);
@@ -288,7 +312,7 @@ public SettingDialog(JFrame owner) {
 					gbc_textFieldPortDataBits.insets = new Insets(0, 0, 5, 0);
 					gbc_textFieldPortDataBits.fill = GridBagConstraints.HORIZONTAL;
 					gbc_textFieldPortDataBits.gridx = 1;
-					gbc_textFieldPortDataBits.gridy = 2;
+					gbc_textFieldPortDataBits.gridy = 3;
 					LeftPanel.add(textFieldPortDataBits, gbc_textFieldPortDataBits);
 					
 					lblPortstopbits = new JLabel("Port Stop Bits");
@@ -297,10 +321,20 @@ public SettingDialog(JFrame owner) {
 					gbc_lblPortstopbits.anchor = GridBagConstraints.EAST;
 					gbc_lblPortstopbits.insets = new Insets(0, 0, 5, 5);
 					gbc_lblPortstopbits.gridx = 0;
-					gbc_lblPortstopbits.gridy = 3;
+					gbc_lblPortstopbits.gridy = 4;
 					LeftPanel.add(lblPortstopbits, gbc_lblPortstopbits);
 					
 					textFieldPortStopBits = new JTextField();
+					textFieldPortStopBits.addFocusListener(new FocusAdapter() {
+						@Override
+						public void focusGained(FocusEvent e) {
+						    textFieldPortStopBits.setBackground(Color.ORANGE);
+						}
+						@Override
+						public void focusLost(FocusEvent e) {
+						    textFieldPortStopBits.setBackground(new Color(255, 255, 153));
+						}
+					});
 					textFieldPortStopBits.setText("1");
 					textFieldPortStopBits.setFont(new Font("Arial", Font.PLAIN, 12));
 					textFieldPortStopBits.setColumns(10);
@@ -309,7 +343,7 @@ public SettingDialog(JFrame owner) {
 					gbc_textFieldPortStopBits.insets = new Insets(0, 0, 5, 0);
 					gbc_textFieldPortStopBits.fill = GridBagConstraints.HORIZONTAL;
 					gbc_textFieldPortStopBits.gridx = 1;
-					gbc_textFieldPortStopBits.gridy = 3;
+					gbc_textFieldPortStopBits.gridy = 4;
 					LeftPanel.add(textFieldPortStopBits, gbc_textFieldPortStopBits);
 					
 					lblPortParity = new JLabel("Port Parity");
@@ -318,20 +352,103 @@ public SettingDialog(JFrame owner) {
 					gbc_lblPortParity.anchor = GridBagConstraints.EAST;
 					gbc_lblPortParity.insets = new Insets(0, 0, 5, 5);
 					gbc_lblPortParity.gridx = 0;
-					gbc_lblPortParity.gridy = 4;
+					gbc_lblPortParity.gridy = 5;
 					LeftPanel.add(lblPortParity, gbc_lblPortParity);
 					
-					txtParitynone = new JTextField();
-					txtParitynone.setText("PARITY_NONE");
-					txtParitynone.setFont(new Font("Arial", Font.PLAIN, 12));
-					txtParitynone.setColumns(10);
-					txtParitynone.setBackground(new Color(255, 255, 153));
-					GridBagConstraints gbc_txtParitynone = new GridBagConstraints();
-					gbc_txtParitynone.insets = new Insets(0, 0, 5, 0);
-					gbc_txtParitynone.fill = GridBagConstraints.HORIZONTAL;
-					gbc_txtParitynone.gridx = 1;
-					gbc_txtParitynone.gridy = 4;
-					LeftPanel.add(txtParitynone, gbc_txtParitynone);
+					textFieldParitynone = new JTextField();
+					textFieldParitynone.addFocusListener(new FocusAdapter() {
+						@Override
+						public void focusGained(FocusEvent e) {
+						    textFieldParitynone.setBackground(Color.ORANGE);
+						}
+						@Override
+						public void focusLost(FocusEvent e) {
+						    textFieldParitynone.setBackground(new Color(255, 255, 153));
+						  
+						}
+					});
+					textFieldParitynone.setText("PARITY_NONE");
+					textFieldParitynone.setFont(new Font("Arial", Font.PLAIN, 12));
+					textFieldParitynone.setColumns(10);
+					textFieldParitynone.setBackground(new Color(255, 255, 153));
+					GridBagConstraints gbc_textFieldParitynone = new GridBagConstraints();
+					gbc_textFieldParitynone.insets = new Insets(0, 0, 5, 0);
+					gbc_textFieldParitynone.fill = GridBagConstraints.HORIZONTAL;
+					gbc_textFieldParitynone.gridx = 1;
+					gbc_textFieldParitynone.gridy = 5;
+					LeftPanel.add(textFieldParitynone, gbc_textFieldParitynone);
+					GridBagConstraints gbc_selectComPortComboBox = new GridBagConstraints();
+					gbc_selectComPortComboBox.insets = new Insets(0, 0, 5, 0);
+					gbc_selectComPortComboBox.gridx = 1;
+					gbc_selectComPortComboBox.gridy = 6;
+					LeftPanel.add(selectComPortComboBox, gbc_selectComPortComboBox);
+					selectComPortComboBox.setFont(new Font("Tahoma", Font.BOLD, 12));
+					
+					
+					selectComPortComboBox.setForeground(Color.RED);
+					selectComPortComboBox.setBackground(SystemColor.activeCaption);
+					selectComPortComboBox.addItem("Select COM Port");
+					selectComPortComboBox.addItem("COM1");
+					selectComPortComboBox.addItem("COM2");
+					
+					btnCheckArduinoConnection = new JButton("Check Arduino Connection");
+					btnCheckArduinoConnection.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+						  stringPort = selectComPortComboBox.getSelectedItem().toString();
+						  intFieldPortSpeed = Integer.parseInt(textFieldPortSpeed.getText());
+						  intFieldPortDataBits = Integer.parseInt(textFieldPortDataBits.getText());
+						  intFieldPortStopBits = Integer.parseInt(textFieldPortStopBits.getText());
+						  stringTextFieldParitynone = textFieldParitynone.getText();
+//						  stringTextFieldDBIP =   textFieldDBIP.getText();
+//						  stringTextFieldUsername =  textFieldUsername.getText();
+//						  stringpasswordField = passwordField.getText();
+//						  stringTextFieldDBName  = textFieldDBName.getText();
+						    
+						    if(stringPort .isEmpty() || stringPort .startsWith("Select") 
+							    ||  stringTextFieldParitynone .isEmpty()  
+							    )
+//							    ||  stringTextFieldDBIP.isEmpty() 
+//							    ||  stringTextFieldUsername .isEmpty()     
+
+//							    ||  stringpasswordField .isEmpty()
+//							    ||  stringTextFieldDBName .isEmpty() )
+							    { 
+							
+						    } else {
+							// if is everything ok
+						    }
+						    
+						}
+					});
+					btnCheckArduinoConnection.setForeground(new Color(0, 153, 0));
+					btnCheckArduinoConnection.setFont(new Font("Tahoma", Font.PLAIN, 9));
+					btnCheckArduinoConnection.setBackground(new Color(0, 204, 255));
+					GridBagConstraints gbc_btnCheckArduinoConnection = new GridBagConstraints();
+					gbc_btnCheckArduinoConnection.insets = new Insets(0, 0, 5, 0);
+					gbc_btnCheckArduinoConnection.gridx = 1;
+					gbc_btnCheckArduinoConnection.gridy = 7;
+					LeftPanel.add(btnCheckArduinoConnection, gbc_btnCheckArduinoConnection);
+					
+					lblStatus = new JLabel("Status:");
+					lblStatus.setFont(new Font("Arial", Font.PLAIN, 14));
+					GridBagConstraints gbc_lblStatus = new GridBagConstraints();
+					gbc_lblStatus.anchor = GridBagConstraints.EAST;
+					gbc_lblStatus.insets = new Insets(0, 0, 5, 5);
+					gbc_lblStatus.gridx = 0;
+					gbc_lblStatus.gridy = 8;
+					LeftPanel.add(lblStatus, gbc_lblStatus);
+					
+					textFieldArduinoStatus = new JTextField();
+					textFieldArduinoStatus.setEditable(false);
+					textFieldArduinoStatus.setFont(new Font("Arial", Font.PLAIN, 12));
+					textFieldArduinoStatus.setColumns(10);
+					textFieldArduinoStatus.setBackground(new Color(255, 255, 153));
+					GridBagConstraints gbc_textFieldArduinoStatus = new GridBagConstraints();
+					gbc_textFieldArduinoStatus.insets = new Insets(0, 0, 5, 0);
+					gbc_textFieldArduinoStatus.fill = GridBagConstraints.HORIZONTAL;
+					gbc_textFieldArduinoStatus.gridx = 1;
+					gbc_textFieldArduinoStatus.gridy = 8;
+					LeftPanel.add(textFieldArduinoStatus, gbc_textFieldArduinoStatus);
 					
 					JPanel rightPanel = new JPanel();
 					rightPanel.setBackground(SystemColor.activeCaption);
@@ -407,14 +524,6 @@ public SettingDialog(JFrame owner) {
 					rightPanel.add(textFieldUsername, gbc_textFieldUsername);
 					textFieldUsername.setColumns(10);
 					
-					GridBagConstraints gbc_textFieldDBPassword = new GridBagConstraints();
-					gbc_textFieldDBPassword.insets = new Insets(0, 0, 5, 0);
-					gbc_textFieldDBPassword.fill = GridBagConstraints.HORIZONTAL;
-					gbc_textFieldDBPassword.gridx = 1; 
-					gbc_textFieldDBPassword.gridy = 4; 
-					rightPanel.add(textFieldDBPassword, gbc_textFieldDBPassword);
-					textFieldDBPassword.setColumns(10);
-					
 					GridBagConstraints gbc_textFieldDBName = new GridBagConstraints();
 					gbc_textFieldDBName.insets = new Insets(0, 0, 5, 0);
 					gbc_textFieldDBName.fill = GridBagConstraints.HORIZONTAL;
@@ -430,8 +539,26 @@ public SettingDialog(JFrame owner) {
 					mnFile.setFont(new Font("Segoe UI", Font.BOLD, 12));
 					menuBar.add(mnFile);
 					
+					mntmOpen = new JMenuItem("Open");
+					mnFile.add(mntmOpen);
+					
 					// save file from the menu
 					JMenuItem mntmSave = new JMenuItem("Save");
+					mntmSave.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+						    //pagesTextField.getText();
+						    selectComPortComboBox.getSelectedItem().toString();
+						    saveToFile(selectComPortComboBox.getSelectedItem().toString(),
+							    textFieldPortSpeed.getText(),
+							    textFieldPortDataBits.getText(),
+							    textFieldPortStopBits.getText(),
+							    textFieldParitynone.getText(),
+							    textFieldDBIP.getText(),
+							    textFieldUsername.getText(),
+							    passwordField.getText(),
+							    textFieldDBName.getText() );
+						}
+					});
 
 					mnFile.add(mntmSave);
 					
@@ -449,12 +576,91 @@ public SettingDialog(JFrame owner) {
 					});
 					mnHelp.add(mntmAbout);
 					textFieldDBName.setColumns(10);
+					
+					passwordField = new JPasswordField();
+					passwordField.addFocusListener(new FocusAdapter() {
+						@Override
+						public void focusGained(FocusEvent arg0) {
+						    passwordField.setBackground(Color.ORANGE);
+						}
+						@Override
+						public void focusLost(FocusEvent e) {
+						    passwordField.setBackground(new Color(255, 255, 153));
+						}
+					});
+					passwordField.setBackground(new Color(255, 255, 153));
+					passwordField.setForeground(new Color(0, 0, 0));
+					GridBagConstraints gbc_passwordField = new GridBagConstraints();
+					gbc_passwordField.insets = new Insets(0, 0, 5, 0);
+					gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
+					gbc_passwordField.gridx = 1;
+					gbc_passwordField.gridy = 4;
+					rightPanel.add(passwordField, gbc_passwordField);
+					
+					btnCheckDatabaseConnection = new JButton("Check Database Connection");
+					btnCheckDatabaseConnection.setForeground(new Color(0, 153, 0));
+					btnCheckDatabaseConnection.setFont(new Font("Tahoma", Font.PLAIN, 9));
+					btnCheckDatabaseConnection.setBackground(new Color(0, 204, 255));
+					GridBagConstraints gbc_btnCheckDatabaseConnection = new GridBagConstraints();
+					gbc_btnCheckDatabaseConnection.insets = new Insets(0, 0, 5, 0);
+					gbc_btnCheckDatabaseConnection.gridx = 1;
+					gbc_btnCheckDatabaseConnection.gridy = 7;
+					rightPanel.add(btnCheckDatabaseConnection, gbc_btnCheckDatabaseConnection);
+					
+					lblStatus_1 = new JLabel("Status:");
+					lblStatus_1.setFont(new Font("Arial", Font.PLAIN, 14));
+					GridBagConstraints gbc_lblStatus_1 = new GridBagConstraints();
+					gbc_lblStatus_1.anchor = GridBagConstraints.EAST;
+					gbc_lblStatus_1.insets = new Insets(0, 0, 5, 5);
+					gbc_lblStatus_1.gridx = 0;
+					gbc_lblStatus_1.gridy = 8;
+					rightPanel.add(lblStatus_1, gbc_lblStatus_1);
+					
+					textFieldDBStatus = new JTextField();
+					textFieldDBStatus.setEditable(false);
+					textFieldDBStatus.setFont(new Font("Arial", Font.PLAIN, 12));
+					textFieldDBStatus.setColumns(10);
+					textFieldDBStatus.setBackground(new Color(255, 255, 153));
+					GridBagConstraints gbc_textFieldDBStatus = new GridBagConstraints();
+					gbc_textFieldDBStatus.insets = new Insets(0, 0, 5, 0);
+					gbc_textFieldDBStatus.fill = GridBagConstraints.HORIZONTAL;
+					gbc_textFieldDBStatus.gridx = 1;
+					gbc_textFieldDBStatus.gridy = 8;
+					rightPanel.add(textFieldDBStatus, gbc_textFieldDBStatus);
 
 					
 	
+
+
 	
 	
 	
 	   }
+/**
+ * save settings to text file.
+ */
+protected void saveToFile(String stringPort, String  portSpeed, String  portDataBits,
+	String portStopBits, String portParity,
+	String dbIP, String dbUsername, String dbPassword, String dbName) {
+    File fileName = new File("settingsIO.txt");
+    // check if they fill all fields
+	ReaderWriter readerWriter = new ReaderWriter("settingsIO.txt");
+	try {
+	    readerWriter.write(stringPort, portSpeed, portDataBits,
+		    portStopBits, portParity, dbIP, dbUsername, dbPassword, dbName );
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+}
+
+/**
+ * open settings from the file
+ */
+protected void openFromFile() {
+    // https://www.caveofprogramming.com/java/java-file-reading-and-writing-files-in-java.html
+    // int i = Integer.parseInt(myString);
+	ReaderWriter readerWriter = new ReaderWriter("settingsIO.txt");
+
+}
 	
 }

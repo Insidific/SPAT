@@ -8,9 +8,6 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
-import Model.Data;
-import Model.Sensor;
-import Model.SensorType;
 import Model.TheSession;
 
 public class Sensored 
@@ -19,31 +16,35 @@ public class Sensored
 	private static Session currentDatabaseSession = null;
 	private static int databaseSessionUsers = 0;
 	private static SessionFactory sessionFactory;
+	private static SerialManager serialManager;
 	
 	public static void main(String[] args)
 	{
-		try
-		{
+//		try
+//		{
 			setupDB();
 			startDataSession();
-			Data data = new Data(
-					316.0, 
-					Sensor.getSensor(
-							1, 
-							"Best Sensor", 
-							SensorType.getSensorTypeByName("HFT")), 
-					"Heatflux");
-			Session session = getDatabaseSession();
-			session.beginTransaction();
-			session.save(data);
-			session.getTransaction().commit();
-			doneWithDatabaseSession();
-		}
-		finally
-		{
-			if (currentDataSession != null)
-				stopDataSession();
-		}
+//			Data data = new Data(
+//					316.0, 
+//					Sensor.getSensor(
+//							1, 
+//							"Best Sensor", 
+//							SensorType.getSensorTypeByName("HFT")), 
+//					"Heatflux");
+//			Session session = getDatabaseSession();
+//			session.beginTransaction();
+//			session.save(data);
+//			session.getTransaction().commit();
+//			doneWithDatabaseSession();
+			
+			serialManager = new SerialManager();
+			//serialManager.setPort("COM3");
+//		}
+//		finally
+//		{
+//			if (currentDataSession != null)
+//				stopDataSession();
+//		}
 		
 	}
 
@@ -121,6 +122,11 @@ public class Sensored
 		else
 			throw new IllegalStateException("No current session!");
 	}
+
+	public static SerialManager getSerialManager() {
+		return serialManager;
+	}
+	
 	
 	
 	

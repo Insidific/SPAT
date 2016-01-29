@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.List;
+
 import org.hibernate.Session;
 
 import Controller.Sensored;
@@ -32,13 +34,25 @@ public class Sensor {
 		Sensor ret;
 		Session session = Sensored.getDatabaseSession();
 		ret = session.get(Sensor.class, id);
+		System.out.println("Retreiving Sensor with ID# " + id + " = " + ret);
 		if (ret == null)
 		{
 			ret = new Sensor(id, name, sensorType);
+			System.out.println("Creating new Sensor: " + ret);
+			session.beginTransaction();
 			session.save(ret);
+			session.getTransaction().commit();
 		}
 		Sensored.doneWithDatabaseSession();
 		return ret;
+	}
+	
+	public static List<Sensor> getSensors()
+	{
+		 Session session = Sensored.getDatabaseSession();
+		 List<Sensor> ret = (List<Sensor>) session.createQuery("SELECT s from Sensor as s").list();
+		 Sensored.doneWithDatabaseSession();
+		 return ret;
 	}
 	
 	public int getSensorID() {
