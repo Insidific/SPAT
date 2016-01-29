@@ -4,6 +4,7 @@ class Data extends \Eloquent {
 	protected $table = 'data';
 	protected $primaryKey = 'data_id';
 	protected $fillable = [];
+	protected $dates = ['timestamp'];
 
 	public function sensor()
 	{
@@ -12,7 +13,7 @@ class Data extends \Eloquent {
 
 	public function session()
 	{
-		return $this->belongsTo('Session', 'session_id');
+		return $this->belongsTo('TheSession', 'session_id');
 	}
 
 	public function dataType()

@@ -17,3 +17,13 @@ Route::get('/', function()
 });
 
 Route::get('/sessions',array('uses' => 'HomeController@showSessions'));
+
+// Sensor routes
+Route::get('/sensors',array('uses' => 'SensorsController@index'));
+Route::get('/sensors/{id}',array('uses' => 'SensorsController@show'));
+Route::get('/sensors/{id}/edit',array('uses' => 'SensorsController@edit'));
+Route::post('/sensors/{id}/update',array('uses' => 'SensorsController@update'));
+Route::post('/sensors/{id}/destroy',array('uses' => 'SensorsController@destroy'));
+
+Route::get('/graphs',array('uses' => 'GraphController@index'));
+Route::get('/graphs/{day}',array('uses' => 'GraphController@show'));
