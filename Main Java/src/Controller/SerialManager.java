@@ -120,7 +120,7 @@ public class SerialManager implements SerialPortEventListener {
 							String out = buffer.substring(0, i);
 							System.out.println("Got message from Arduino: " + out);
 							buffer.delete(0, i + 1);
-							Data.parseData(out);
+							Sensored.newDataReceived(out);
 						}
 					}
 				}
