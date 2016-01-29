@@ -11,9 +11,9 @@
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
                 <li {{ (Request::is('/') ? 'class="active"' : '') }}><a href="/">Start</a></li>
-                <li {{ (Request::is('sessions/') ? 'class="active"' : '') }}><a href="sessions/">Sessions</a></li>
-                <li {{ (Request::is('sensor/') ? 'class="active"' : '') }}><a href="sensor/">Sensor Database</a></li>
-                <li {{ (Request::is('graphs/') ? 'class="active"' : '') }}><a href="graphs/">Graphs</a></li>
+                <li {{ (Request::is('sessions/') ? 'class="active"' : '') }}><a href="/sessions">Sessions</a></li>
+                <li {{ (Request::is('sensor/') ? 'class="active"' : '') }}><a href="/sensors">Sensor Database</a></li>
+                <li {{ (Request::is('graphs/') ? 'class="active"' : '') }}><a href="/graphs">Graphs</a></li>
             </ul>
         </div>
     </div>

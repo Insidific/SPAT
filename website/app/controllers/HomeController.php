@@ -22,17 +22,7 @@ class HomeController extends BaseController {
 	}
 
 	public function showSessions() {
-		$allSessions = TheSession::get();
-		$sessions = array();
-		$session = new TheSession();
-		foreach($allSessions as $session) {
-			$array = array();
-			$array["result"] = $session;
-			$array["sensors"] = DB::select(DB::raw('Select DISTINCT `sensors`.*, `data`.`session_id` FROM `sensors` INNER JOIN `data` ON `data`.`sensor_id` = `sensors`.`sensor_id` WHERE `data`.`session_id` = '.$session->session_id));
-			$sessions[] = $array;
-		}
 
-		return View::make('sessions', ['sessions' => $sessions]);
 	}
 
 }

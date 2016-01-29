@@ -1,5 +1,5 @@
 @extends('templates.default')
 
 @section('content')
-	<p>hello: Again</p>
+	<h1>Sensored - Start</h1>
 @stop

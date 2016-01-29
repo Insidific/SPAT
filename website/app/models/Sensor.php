@@ -5,7 +5,7 @@ class Sensor extends \Eloquent {
 	protected $primaryKey = 'sensor_id';
 	protected $fillable = [];
 
-	public function sensorTypes()
+	public function sensorType()
 	{
 		return $this->hasOne('SensorType','sensor_type_id');
 	}
